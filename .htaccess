@@ -1,0 +1,8 @@
+# 拒绝所有直接访问项目根目录的 HTTP 请求
+# 正确部署时 DocumentRoot 应指向 public/ 目录，此文件作为额外保护
+<IfModule mod_authz_core.c>
+    Require all denied
+</IfModule>
+<IfModule mod_authz_host.c>
+    Deny from all
+</IfModule>

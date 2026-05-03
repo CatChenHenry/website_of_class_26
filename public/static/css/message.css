@@ -1,0 +1,99 @@
+/* 全局 Toast 提示样式 - 与删除用户确认弹窗风格一致 */
+.global-toast {
+    position: fixed;
+    top: 80px;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50px);
+    padding: 12px 28px;
+    border-radius: 6px;
+    color: #fff;
+    font-size: 15px;
+    z-index: 99999;
+    opacity: 0;
+    transition: opacity 0.3s, transform 0.3s;
+    pointer-events: none;
+    white-space: nowrap;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+.global-toast.show {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0px);
+}
+
+.global-toast.success { background: #28a745; }
+.global-toast.error { background: #dc3545; }
+.global-toast.warning { background: #e67e22; }
+.global-toast.info { background: #6c757d; }
+
+/* 全局模态框样式 */
+.global-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100000;
+    justify-content: center;
+    align-items: center;
+}
+
+.global-modal-overlay.active {
+    display: flex;
+}
+
+.global-modal-box {
+    background: #fff;
+    border-radius: 8px;
+    padding: 28px 32px;
+    min-width: 320px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    text-align: center;
+}
+
+.global-modal-box p {
+    font-size: 16px;
+    margin: 0 0 24px 0;
+    color: #333;
+}
+
+.global-modal-box .modal-btn-group {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+}
+
+.global-modal-box .modal-btn-cancel {
+    padding: 8px 24px;
+    border: 1px solid #ddd;
+    background: #fff;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    color: #333;
+}
+
+.global-modal-box .modal-btn-cancel:hover {
+    background: #f5f5f5;
+}
+
+.global-modal-box .modal-btn-confirm {
+    padding: 8px 24px;
+    background: #dc3545;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.global-modal-box .modal-btn-confirm:hover {
+    background: #c82333;
+}
+
+.global-modal-box .modal-btn-confirm.btn-confirm-primary {
+    background: #007bff;
+}
+
+.global-modal-box .modal-btn-confirm.btn-confirm-primary:hover {
+    background: #0069d9;
+}
