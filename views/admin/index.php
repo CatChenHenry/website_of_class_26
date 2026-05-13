@@ -237,8 +237,7 @@ require ROOT_DIR . '/views/common/navbar.php';
                                 if (tokenInput) tokenInput.value = res.csrf_token;
                             }
                         } catch (e) {
-                            showToast('删除用户成功', 'success');
-                            if (row) row.remove();
+                            showToast('操作失败：服务器返回无效响应', 'error');
                         }
                     };
                     xhr.onerror = function() {
@@ -322,7 +321,7 @@ require ROOT_DIR . '/views/common/navbar.php';
                                 if (tokenInput) tokenInput.value = res.csrf_token;
                             }
                         } catch (e) {
-                            showToast('批量删除完成', 'success');
+                            showToast('批量删除操作失败：服务器返回无效响应', 'error');
                         }
                     };
                     xhr.onerror = function() {

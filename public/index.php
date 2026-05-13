@@ -70,6 +70,7 @@ if (php_sapi_name() === 'cli-server') {
 ini_set('session.cookie_httponly', 1);
 ini_set('session.use_strict_mode', 1);
 ini_set('session.cookie_samesite', 'Lax');
+ini_set('session.cookie_lifetime', 30 * 24 * 3600);
 if (isset($_SERVER['HTTPS']) && $_SERVER['HTTPS'] === 'on') {
 	ini_set('session.cookie_secure', 1);
 }

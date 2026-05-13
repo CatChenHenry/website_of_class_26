@@ -46,6 +46,11 @@ class ActivityController
 			header("Location: /activity/create");
 			exit;
 		}
+		if (!strtotime($activityTime)) {
+			$_SESSION['flash_message'] = ['type' => 'error', 'text' => '活动时间格式不正确！'];
+			header("Location: /activity/create");
+			exit;
+		}
 		$data = [
 			'name' => $name,
 			'activity_time' => $activityTime,
@@ -104,6 +109,11 @@ class ActivityController
 			header("Location: /activity/edit?id=" . $id);
 			exit;
 		}
+		if (!strtotime($activityTime)) {
+			$_SESSION['flash_message'] = ['type' => 'error', 'text' => '活动时间格式不正确！'];
+			header("Location: /activity/edit?id=" . $id);
+			exit;
+		}
 		$data = [
 			'name' => $name,
 			'activity_time' => $activityTime,
@@ -156,6 +166,16 @@ class ActivityController
 			http_response_code(401);
 			echo json_encode(['success' => false, 'message' => '请先登录']);
 			exit;
+		}
+		if (!isAjaxRequest()) {
+			verifyCsrfToken();
+		} else {
+			if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+				http_response_code(403);
+				echo json_encode(['success' => false, 'message' => 'CSRF 验证失败']);
+				exit;
+			}
+			$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 		}
 
 		$activityId = (int) ($_POST['activity_id'] ?? 0);
@@ -235,6 +255,16 @@ class ActivityController
 			echo json_encode(['success' => false, 'message' => '请先登录']);
 			exit;
 		}
+		if (!isAjaxRequest()) {
+			verifyCsrfToken();
+		} else {
+			if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+				http_response_code(403);
+				echo json_encode(['success' => false, 'message' => 'CSRF 验证失败']);
+				exit;
+			}
+			$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+		}
 
 		$commentId = (int) ($_POST['comment_id'] ?? 0);
 		if (empty($commentId)) {
@@ -247,7 +277,7 @@ class ActivityController
 		}
 
 		$isAdmin = canManageActivity($_SESSION['permissions']);
-		$isOwner = $comment['stu_no'] == $_SESSION['id'];
+		$isOwner = (int)$comment['stu_no'] === (int)$_SESSION['id'];
 
 		if (!$isAdmin && !$isOwner) {
 			become403page();

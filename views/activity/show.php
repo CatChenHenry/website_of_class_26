@@ -467,27 +467,81 @@ require ROOT_DIR . '/views/common/navbar.php';
         } else {
             marked.setOptions({ gfm: true, breaks: true, mangle: false });
             try {
-                let content = contentText.replace(/\\\\/g, '\\');
-                let html = marked.parse(content);
+                // 第一步：保护 Markdown 代码块（围栏代码块和行内代码），防止数学公式提取错误匹配
+                const markdownCodeBlocks = [];
+                let raw = contentText;
+                // 匹配围栏代码块：```language ... ``` 或 ~~~ ... ~~~
+                raw = raw.replace(/```[\s\S]*?```/g, function(match) {
+                    var idx = markdownCodeBlocks.length;
+                    markdownCodeBlocks.push(match);
+                    return '%%%CODE' + idx + '%%%';
+                });
+                // 匹配行内代码：`...`（不支持嵌套）
+                raw = raw.replace(/`[^`]*`/g, function(match) {
+                    var idx = markdownCodeBlocks.length;
+                    markdownCodeBlocks.push(match);
+                    return '%%%CODE' + idx + '%%%';
+                });
+
+                // 第二步：从原始 Markdown 中提取数学公式，避免 marked 破坏 & \\ 等字符
+                const mathItems = [];
+                // 先提取行间公式 $$...$$
+                raw = raw.replace(/\$\$[\s\S]*?\$\$/g, function(match) {
+                    var idx = mathItems.length;
+                    mathItems.push({ formula: match.slice(2, -2), display: true }); // 不 trim 保留原始空白
+                    return '%%%MATH' + idx + '%%%';
+                });
+                // 再提取行内公式 $...$，使用更可靠的正则表达式
+                raw = raw.replace(/\$(?!\$)([^$]+?)\$(?!\$)/g, function(match, content) {
+                    var idx = mathItems.length;
+                    mathItems.push({ formula: content, display: false }); // 不 trim
+                    return '%%%MATH' + idx + '%%%';
+                });
+
+                // 第三步：恢复 Markdown 代码块，以便 marked 正确解析
+                raw = raw.replace(/%%%CODE(\d+)%%%/g, function(match, idx) {
+                    var block = markdownCodeBlocks[parseInt(idx)];
+                    return block || match;
+                });
+
+                // 第四步：marked 解析（数学公式已被占位符保护）
+                let html = marked.parse(raw);
+
+                // 第三步：保护代码块，防止 KaTeX 处理
+                const codeBlocks = [];
+                html = html.replace(/<pre>\s*<code[^>]*>[\s\S]*?<\/code>\s*<\/pre>/g, function(match) {
+                    var idx = codeBlocks.length;
+                    codeBlocks.push(match);
+                    return '%%%CB' + idx + '%%%';
+                });
+
+                // 第四步：还原数学公式并用 KaTeX 渲染
+                if (typeof katex !== 'undefined') {
+                    html = html.replace(/%%%MATH(\d+)%%%/g, function(match, idx) {
+                        var item = mathItems[parseInt(idx)];
+                        if (!item) return match;
+                        try {
+                            return katex.renderToString(item.formula, {
+                                throwOnError: false,
+                                displayMode: item.display,
+                                strict: false
+                            });
+                        } catch(e) {
+                            return '<code style="background:#fef0f0;color:#c00;padding:2px 6px;border-radius:3px;">' +
+                                   item.formula.replace(/&/g, '&amp;').replace(/</g, '&lt;') + '</code>';
+                        }
+                    });
+                }
+
+                // 第五步：恢复代码块
+                html = html.replace(/%%%CB(\d+)%%%/g, function(match, idx) {
+                    var block = codeBlocks[parseInt(idx)];
+                    return block || match;
+                });
+
                 html = DOMPurify.sanitize(html, { ADD_ATTR: ['class'], ADD_TAGS: ['style'] });
                 contentArea.innerHTML = html;
                 if (window.hljs) { hljs.highlightAll(); }
-                if (typeof katex !== 'undefined') {
-                    contentArea.innerHTML = DOMPurify.sanitize(contentArea.innerHTML.replace(
-                        /\$\$([\s\S]*?)\$\$/g,
-                        (match, formula) => {
-                            const cleanFormula = formula.replace(/<br\s*\/?>/g, '').trim();
-                            return katex.renderToString(cleanFormula, { throwOnError: false, displayMode: true, strict: 'ignore' });
-                        }
-                    ), { ADD_ATTR: ['class'], ADD_TAGS: ['style'] });
-                    contentArea.innerHTML = DOMPurify.sanitize(contentArea.innerHTML.replace(
-                        /\$([^\$]*?)\$/g,
-                        (match, formula) => {
-                            const cleanFormula = formula.trim();
-                            return katex.renderToString(cleanFormula, { throwOnError: false, displayMode: false, strict: 'ignore' });
-                        }
-                    ), { ADD_ATTR: ['class'], ADD_TAGS: ['style'] });
-                }
             } catch (err) {
                 contentArea.innerHTML = '<pre style="white-space:pre-wrap;word-break:break-word;">' + escapeHtml(contentText) + '</pre>';
             }

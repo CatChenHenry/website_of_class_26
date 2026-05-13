@@ -110,6 +110,11 @@ class AdminController
 			header("Location: /admin/editUser?stu_no=" . $stuNo);
 			exit;
 		}
+		if (!empty($data['email']) && !filter_var($data['email'], FILTER_VALIDATE_EMAIL)) {
+			$_SESSION['flash_message'] = ['type' => 'error', 'text' => '邮箱格式不正确！'];
+			header("Location: /admin/editUser?stu_no=" . $stuNo);
+			exit;
+		}
 		if (!in_array($data['permissions'], ['student', 'teacher', 'admin'])) {
 			$data['permissions'] = 'student';
 		}
