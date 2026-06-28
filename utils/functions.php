@@ -105,25 +105,57 @@ function canManageActivity(string $permissions): bool
 
 function verifyCsrfToken()
 {
-	if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
-		http_response_code(403);
-		echo '<!DOCTYPE html>
-		      <html>
-		      <head><meta charset="UTF-8"><title>403 CSRF验证失败</title></head>
-		      <body style="text-align:center;margin-top:100px;">
-		          <h1>403 请求验证失败</h1>
-		          <p>CSRF Token 无效，请重新提交</p>
-		          <p>3秒后自动返回首页</p>
-		          <script>
-		              setTimeout(() => {
-		                  window.location.href = "/home";
-		              }, 3000);
-		          </script>
-		      </body>
-		      </html>';
+	// 检测是否因 post_max_size 超出导致 POST 数据被截断
+	if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($_POST)) {
+		$contentLen = (int)($_SERVER['CONTENT_LENGTH'] ?? 0);
+		error_log('POST data empty: CONTENT_LENGTH=' . $contentLen);
+		http_response_code(413);
+		if (isAjaxRequest()) {
+			header('Content-Type: application/json');
+			echo json_encode(['error' => '上传文件过大，超过服务器限制']);
+		} else {
+			echo '<!DOCTYPE html>
+			      <html>
+			      <head><meta charset="UTF-8"><title>413 文件过大</title></head>
+			      <body style="text-align:center;margin-top:100px;">
+			          <h1>413 文件过大</h1>
+			          <p>上传的文件超过了服务器限制（最大500MB）</p>
+			          <p>3秒后自动返回上一页</p>
+			          <script>
+			              setTimeout(() => { history.back(); }, 3000);
+			          </script>
+			      </body>
+			      </html>';
+		}
 		exit;
 	}
-	$_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+
+	if (!isset($_POST['csrf_token']) || !hash_equals($_SESSION['csrf_token'] ?? '', $_POST['csrf_token'])) {
+		error_log('CSRF token validation failed: session token=' . ($_SESSION['csrf_token'] ?? 'none') . ', posted token=' . ($_POST['csrf_token'] ?? 'none') . ', isAjax=' . (isAjaxRequest() ? 'true' : 'false') . ', REQUEST_METHOD=' . ($_SERVER['REQUEST_METHOD'] ?? ''));
+		http_response_code(403);
+		if (isAjaxRequest()) {
+			header('Content-Type: application/json');
+			echo json_encode(['error' => 'CSRF Token 无效，请重新提交']);
+		} else {
+			echo '<!DOCTYPE html>
+			      <html>
+			      <head><meta charset="UTF-8"><title>403 CSRF验证失败</title></head>
+			      <body style="text-align:center;margin-top:100px;">
+			          <h1>403 请求验证失败</h1>
+			          <p>CSRF Token 无效，请重新提交</p>
+			          <p>3秒后自动返回首页</p>
+			          <script>
+			              setTimeout(() => {
+			                  window.location.href = "/home";
+			              }, 3000);
+			          </script>
+			      </body>
+			      </html>';
+		}
+		exit;
+	}
+	// 验证成功，保持令牌不变以保证会话一致性
+	// $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
 }
 
 function sanitizeHtml(string $html): string

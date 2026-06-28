@@ -12,388 +12,116 @@ require ROOT_DIR . '/views/common/navbar.php';
     <title>26班网站 - <?php echo sanitizeHtml($activity['name']); ?></title>
     <link rel="stylesheet" href="https://unpkg.com/katex@0.16.21/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <link rel="stylesheet" href="/static/css/qzone-base.css">
+    <!-- 全局提示框样式（与管理员控制台一致） -->
+    <link rel="stylesheet" href="/static/css/message.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/marked/14.0.0/marked.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/katex@0.16.21/dist/katex.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/dompurify/3.2.5/purify.min.js"></script>
     <style>
-        .container {
-            width: 900px;
-            margin: 20px auto;
-            margin-top: 60px;
-        }
-
-        .activity-header {
-            margin-bottom: 24px;
-        }
-
         .activity-header h1 {
             font-size: 28px;
-            color: #333;
+            color: var(--qzone-text-primary, #333);
             margin-bottom: 8px;
         }
-
         .activity-meta {
             font-size: 14px;
-            color: #888;
+            color: var(--qzone-text-secondary, #888);
         }
-
-        .activity-meta span {
-            margin-right: 16px;
-        }
-
-        .activity-actions {
-            margin-top: 12px;
-            display: flex;
-            gap: 10px;
-        }
-
-        .btn {
-            padding: 6px 14px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-            font-size: 13px;
-        }
-
-        .btn-back {
-            background: #6c757d;
-            color: white;
-        }
-
-        .btn-edit {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-delete {
-            background: #dc3545;
-            color: white;
-        }
-
+        .activity-meta span { margin-right: 16px; }
+        .activity-actions { margin-top: 12px; display: flex; gap: 10px; }
         .activity-content {
             line-height: 1.8;
             font-size: 15px;
             color: #333;
             padding: 20px 0;
         }
-
-        .activity-content h1, .activity-content h2, .activity-content h3 {
-            margin-top: 20px;
-            margin-bottom: 10px;
-        }
-
+        .activity-content h1, .activity-content h2, .activity-content h3 { margin-top: 20px; margin-bottom: 10px; }
         .activity-content p { margin: 10px 0; }
-
-        .activity-content pre {
-            background: #f6f8fa;
-            padding: 16px;
-            border-radius: 6px;
-            overflow-x: auto;
-        }
-
+        .activity-content pre { background: #f6f8fa; padding: 16px; border-radius: 6px; overflow-x: auto; }
         .activity-content code { font-size: 14px; }
-
         .activity-content img { max-width: 100%; }
-
         .activity-content table { border-collapse: collapse; margin: 10px 0; }
-
-        .activity-content th, .activity-content td {
-            border: 1px solid #ddd;
-            padding: 8px 12px;
-        }
-
+        .activity-content th, .activity-content td { border: 1px solid #ddd; padding: 8px 12px; }
         .activity-content th { background: #f6f8fa; }
-
-        .activity-content blockquote {
-            border-left: 4px solid #ddd;
-            padding-left: 16px;
-            color: #666;
-            margin: 10px 0;
-        }
-
-        .empty-content {
-            color: #999;
-            font-size: 15px;
-            padding: 40px 0;
-        }
-
-        .comment-section {
-            margin-top: 40px;
-            border-top: 1px solid #e0e0e0;
-            padding-top: 24px;
-        }
-
-        .comment-section h2 {
-            font-size: 20px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .comment-count {
-            font-size: 14px;
-            color: #888;
-            font-weight: normal;
-        }
-
-        .comment-form {
-            margin-bottom: 24px;
-        }
-
+        .activity-content blockquote { border-left: 4px solid #ddd; padding-left: 16px; color: #666; margin: 10px 0; }
+        .empty-content { color: #999; font-size: 15px; padding: 40px 0; }
+        .comment-section { margin-top: 40px; border-top: 1px solid var(--qzone-border,#e0e0e0); padding-top: 24px; }
+        .comment-section h2 { font-size: 20px; color: #333; margin-bottom: 20px; }
+        .comment-count { font-size: 14px; color: #888; font-weight: normal; }
+        .comment-form { margin-bottom: 24px; }
         .comment-form textarea {
-            width: 100%;
-            height: 80px;
-            padding: 12px;
-            font-size: 14px;
-            border: 1px solid #ddd;
-            border-radius: 6px;
-            resize: vertical;
-            font-family: inherit;
-            box-sizing: border-box;
+            width: 100%; height: 80px; padding: 12px; font-size: 14px;
+            border: 1px solid var(--qzone-border,#ddd); border-radius: 6px;
+            resize: vertical; font-family: inherit; box-sizing: border-box;
+            transition: border-color 0.3s;
         }
-
-        .comment-form textarea:focus {
-            outline: none;
-            border-color: #007bff;
-        }
-
-        .comment-form-actions {
-            display: flex;
-            justify-content: flex-end;
-            margin-top: 8px;
-        }
-
-        .comment-submit-btn {
-            padding: 8px 24px;
-            background: #007bff;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            font-size: 14px;
-            cursor: pointer;
-        }
-
-        .comment-submit-btn:hover {
-            background: #0069d9;
-        }
-
-        .comment-submit-btn:disabled {
-            background: #aaa;
-            cursor: not-allowed;
-        }
-
+        .comment-form textarea:focus { outline: none; border-color: var(--qzone-primary,#00a1d6); }
+        .comment-form-actions { display: flex; justify-content: flex-end; margin-top: 8px; }
         .comment-login-hint {
-            padding: 16px;
-            background: #f8f9fa;
-            border-radius: 6px;
-            text-align: center;
-            color: #888;
-            font-size: 14px;
-            margin-bottom: 24px;
+            padding: 16px; background: #f8f9fa; border-radius: 6px;
+            text-align: center; color: #888; font-size: 14px; margin-bottom: 24px;
         }
-
-        .comment-login-hint a {
-            color: #007bff;
-            text-decoration: none;
-        }
-
-        .comment-login-hint a:hover {
-            text-decoration: underline;
-        }
-
-        .comment-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .comment-item {
-            display: flex;
-            gap: 12px;
-            padding: 16px 0;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .comment-item:last-child {
-            border-bottom: none;
-        }
-
-        .comment-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            object-fit: cover;
-            flex-shrink: 0;
-            border: 1px solid #eee;
-        }
-
-        .comment-body {
-            flex: 1;
-            min-width: 0;
-        }
-
-        .comment-header {
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            margin-bottom: 6px;
-        }
-
-        .comment-username {
-            font-size: 14px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .comment-time {
-            font-size: 12px;
-            color: #999;
-        }
-
+        .comment-login-hint a { color: var(--qzone-primary,#007bff); text-decoration: none; }
+        .comment-login-hint a:hover { text-decoration: underline; }
+        .comment-list { list-style: none; padding: 0; margin: 0; }
+        .comment-item { display: flex; gap: 12px; padding: 16px 0; border-bottom: 1px solid #f0f0f0; }
+        .comment-item:last-child { border-bottom: none; }
+        .comment-avatar { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; flex-shrink: 0; border: 1px solid #eee; }
+        .comment-body { flex: 1; min-width: 0; }
+        .comment-header { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; }
+        .comment-username { font-size: 14px; font-weight: 600; color: #333; }
+        .comment-time { font-size: 12px; color: #999; }
         .comment-delete-btn {
-            margin-left: auto;
-            padding: 2px 8px;
-            font-size: 12px;
-            color: #dc3545;
-            background: none;
-            border: 1px solid #dc3545;
-            border-radius: 3px;
-            cursor: pointer;
-            opacity: 0.7;
+            margin-left: auto; padding: 2px 8px; font-size: 12px;
+            color: #dc3545; background: none; border: 1px solid #dc3545;
+            border-radius: 3px; cursor: pointer; opacity: 0.7;
         }
-
-        .comment-delete-btn:hover {
-            opacity: 1;
-            background: #fff5f5;
-        }
-
-        .comment-text {
-            font-size: 14px;
-            color: #444;
-            line-height: 1.6;
-            word-break: break-word;
-        }
-
-        .no-comments {
-            text-align: center;
-            color: #aaa;
-            padding: 30px 0;
-            font-size: 14px;
-        }
-
+        .comment-delete-btn:hover { opacity: 1; background: #fff5f5; }
+        .comment-text { font-size: 14px; color: #444; line-height: 1.6; word-break: break-word; }
+        .no-comments { text-align: center; color: #aaa; padding: 30px 0; font-size: 14px; }
         @media (max-width: 768px) {
-            .container {
-                width: 100%;
-                margin-top: 40px;
-                padding: 0 16px;
-                box-sizing: border-box;
-            }
-
-            .activity-header h1 {
-                font-size: 22px;
-            }
-
-            .activity-meta {
-                font-size: 13px;
-            }
-
-            .activity-meta span {
-                display: block;
-                margin-right: 0;
-                margin-bottom: 2px;
-            }
-
-            .activity-content {
-                font-size: 14px;
-                padding: 16px 0;
-            }
-
-            .activity-content pre {
-                padding: 12px;
-                font-size: 13px;
-            }
-
-            .comment-item {
-                gap: 8px;
-                padding: 12px 0;
-            }
-
-            .comment-avatar {
-                width: 32px;
-                height: 32px;
-            }
-
-            .comment-form textarea {
-                height: 60px;
-                font-size: 13px;
-            }
-
-            .comment-submit-btn {
-                padding: 6px 16px;
-                font-size: 13px;
-            }
+            .activity-header h1 { font-size: 22px; }
+            .activity-meta { font-size: 13px; }
+            .activity-meta span { display: block; margin-right: 0; margin-bottom: 2px; }
+            .activity-content { font-size: 14px; padding: 16px 0; }
+            .activity-content pre { padding: 12px; font-size: 13px; }
+            .comment-item { gap: 8px; padding: 12px 0; }
+            .comment-avatar { width: 32px; height: 32px; }
+            .comment-form textarea { height: 60px; font-size: 13px; }
         }
-
         @media (max-width: 480px) {
-            .container {
-                margin-top: 30px;
-                padding: 0 12px;
-            }
-
-            .activity-header h1 {
-                font-size: 18px;
-            }
-
-            .activity-actions {
-                gap: 6px;
-            }
-
-            .btn {
-                padding: 5px 10px;
-                font-size: 12px;
-            }
-
-            .comment-avatar {
-                width: 28px;
-                height: 28px;
-            }
-
-            .comment-username {
-                font-size: 13px;
-            }
-
-            .comment-text {
-                font-size: 13px;
-            }
-
-            .comment-delete-btn {
-                padding: 1px 6px;
-                font-size: 11px;
-            }
+            .activity-header h1 { font-size: 18px; }
+            .activity-actions { gap: 6px; }
+            .comment-avatar { width: 28px; height: 28px; }
+            .comment-username { font-size: 13px; }
+            .comment-text { font-size: 13px; }
+            .comment-delete-btn { padding: 1px 6px; font-size: 11px; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <div class="activity-header">
-            <h1><?php echo sanitizeHtml($activity['name']); ?></h1>
-            <div class="activity-meta">
-                <span>活动时间：<?php echo htmlspecialchars($activity['activity_time']); ?></span>
-                <span>发布时间：<?php echo htmlspecialchars($activity['created_at']); ?></span>
-            </div>
-            <?php if (isset($_SESSION['username']) && canManageActivity($_SESSION['permissions'])): ?>
-                <div class="activity-actions">
-                    <form method="POST" action="/activity/delete" style="display:inline;" id="actDeleteForm">
-                        <button type="button" class="btn btn-edit" onclick="window.location.href='/activity/edit?id=<?php echo (int) $activity['id']; ?>'">编辑</button>
-                        <?php echo csrfField(); ?>
-                        <input type="hidden" name="id" value="<?php echo (int) $activity['id']; ?>">
-                        <button type="button" class="btn btn-delete" onclick="showConfirmModal({message:'确定删除该活动吗？',confirmText:'确定删除',onConfirm:function(){document.getElementById('actDeleteForm').submit();}})">删除</button>
-                    </form>
+    <div class="qzone-page">
+        <div class="qzone-card">
+            <div class="activity-header">
+                <h1><?php echo sanitizeHtml($activity['name']); ?></h1>
+                <div class="activity-meta">
+                    <span>活动时间：<?php echo htmlspecialchars($activity['activity_time']); ?></span>
+                    <span>发布时间：<?php echo htmlspecialchars($activity['created_at']); ?></span>
                 </div>
-            <?php endif; ?>
-        </div>
+                <?php if (isset($_SESSION['username']) && canManageActivity($_SESSION['permissions'])): ?>
+                    <div class="activity-actions">
+                        <form method="POST" action="/activity/delete" style="display:inline;" id="actDeleteForm">
+                            <button type="button" class="qzone-btn qzone-btn-success qzone-btn-sm" onclick="window.location.href='/activity/edit?id=<?php echo (int) $activity['id']; ?>'">编辑</button>
+                            <?php echo csrfField(); ?>
+                            <input type="hidden" name="id" value="<?php echo (int) $activity['id']; ?>">
+                            <button type="button" class="qzone-btn qzone-btn-danger qzone-btn-sm" onclick="showConfirmModal({message:'确定删除该活动吗？',confirmText:'确定删除',onConfirm:function(){document.getElementById('actDeleteForm').submit();}})">删除</button>
+                        </form>
+                    </div>
+                <?php endif; ?>
+            </div>
         <div id="activity-content" class="activity-content"
             data-raw-length="<?php echo strlen($activity['content'] ?? ''); ?>"
             data-has-content="<?php echo !empty($activity['content']) ? 'yes' : 'no'; ?>"
@@ -406,6 +134,7 @@ require ROOT_DIR . '/views/common/navbar.php';
             </div>
         </noscript>
         <?php endif; ?>
+        </div><!-- /.qzone-card -->
 
         <div class="comment-section">
             <h2>评论 <span class="comment-count" id="commentCount">(<?php echo count($comments); ?>)</span></h2>
@@ -414,7 +143,7 @@ require ROOT_DIR . '/views/common/navbar.php';
             <div class="comment-form">
                 <textarea id="commentInput" placeholder="写下你的评论..." maxlength="1000"></textarea>
                 <div class="comment-form-actions">
-                    <button class="comment-submit-btn" id="commentSubmitBtn" onclick="submitComment()">发表评论</button>
+                    <button class="qzone-btn qzone-btn-primary" id="commentSubmitBtn" onclick="submitComment()">发表评论</button>
                 </div>
             </div>
             <?php else: ?>
@@ -453,7 +182,7 @@ require ROOT_DIR . '/views/common/navbar.php';
     <script>
         const activityId = <?php echo (int) $activity['id']; ?>;
         const isLoggedIn = <?php echo isset($_SESSION['username']) ? 'true' : 'false'; ?>;
-        const csrfToken = <?php echo json_encode($_SESSION['csrf_token'] ?? ''); ?>;
+        let csrfToken = <?php echo json_encode($_SESSION['csrf_token'] ?? ''); ?>;
         const currentStuNo = <?php echo isset($_SESSION['id']) ? (int) $_SESSION['id'] : 'null'; ?>;
         const isAdmin = <?php echo (isset($_SESSION['permissions']) && canManageActivity($_SESSION['permissions'])) ? 'true' : 'false'; ?>;
 
@@ -580,6 +309,7 @@ require ROOT_DIR . '/views/common/navbar.php';
                             showToast(result.message || '评论失败', 'error');
                         }
                         if (result.csrf_token) {
+                            csrfToken = result.csrf_token;
                             var tokenInput = document.querySelector('input[name="csrf_token"]');
                             if (tokenInput) tokenInput.value = result.csrf_token;
                         }
@@ -668,6 +398,7 @@ require ROOT_DIR . '/views/common/navbar.php';
                                     showToast('删除失败', 'error');
                                 }
                                 if (result.csrf_token) {
+                                    csrfToken = result.csrf_token;
                                     var tokenInput = document.querySelector('input[name="csrf_token"]');
                                     if (tokenInput) tokenInput.value = result.csrf_token;
                                 }
@@ -699,6 +430,8 @@ require ROOT_DIR . '/views/common/navbar.php';
             return text.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
         }
     </script>
+    <!-- 全局提示框脚本（与管理员控制台一致） -->
+    <script src="/static/js/message.js"></script>
 </body>
 
 </html>

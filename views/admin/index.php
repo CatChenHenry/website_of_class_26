@@ -9,94 +9,9 @@ require ROOT_DIR . '/views/common/navbar.php';
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理员控制台</title>
+    <link rel="stylesheet" href="/static/css/message.css">
+    <link rel="stylesheet" href="/static/css/qzone-base.css">
     <style>
-        .container {
-            width: 1200px;
-            margin: 20px auto;
-            margin-top: 60px;
-        }
-
-        .btn {
-            padding: 6px 12px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background: #007bff;
-            color: white;
-        }
-
-        .btn-edit {
-            background: #28a745;
-            color: white;
-        }
-
-        .btn-delete {
-            background: #dc3545;
-            color: white;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-        }
-
-        th,
-        td {
-            padding: 12px;
-            border: 1px solid #ddd;
-            text-align: left;
-        }
-
-        th {
-            background: #f8f9fa;
-        }
-
-        .success {
-            color: #fff;
-            margin: 10px 0;
-        }
-
-        .batch-bar {
-            display: none;
-            align-items: center;
-            gap: 12px;
-            padding: 10px 16px;
-            background: #fff3cd;
-            border: 1px solid #ffc107;
-            border-radius: 6px;
-            margin: 12px 0;
-        }
-        .batch-bar.active { display: flex; }
-        .batch-bar .batch-info { font-size: 14px; color: #856404; }
-        .btn-batch-delete {
-            padding: 6px 16px;
-            background: #dc3545;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-        .btn-batch-delete:hover { background: #c82333; }
-        .btn-batch-cancel {
-            padding: 6px 16px;
-            background: #6c757d;
-            color: #fff;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 13px;
-        }
-
-        .cb-col { width: 40px; text-align: center; }
-        .cb-col input[type="checkbox"] { width: 16px; height: 16px; cursor: pointer; }
-
-        .avatar-col { width: 50px; text-align: center; }
         .user-avatar-sm {
             width: 36px;
             height: 36px;
@@ -104,69 +19,30 @@ require ROOT_DIR . '/views/common/navbar.php';
             object-fit: cover;
             border: 1px solid #ddd;
         }
-
-        @media (max-width: 768px) {
-            .container {
-                width: 100%;
-                margin-top: 40px;
-                padding: 0 12px;
-                box-sizing: border-box;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            table {
-                display: block;
-                overflow-x: auto;
-                -webkit-overflow-scrolling: touch;
-                font-size: 13px;
-            }
-
-            th, td {
-                padding: 8px 6px;
-                font-size: 12px;
-            }
-
-            .batch-bar {
-                flex-wrap: wrap;
-                gap: 8px;
-            }
-        }
-
         @media (max-width: 480px) {
-            .container {
-                margin-top: 30px;
-                padding: 0 8px;
-            }
-
-            .btn {
-                padding: 4px 8px;
-                font-size: 12px;
-            }
-
-            .user-avatar-sm {
-                width: 28px;
-                height: 28px;
-            }
+            .user-avatar-sm { width: 28px; height: 28px; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>管理员控制台 - 用户管理</h1>
-        <a href="/admin/createUser" class="btn btn-primary">新建用户</a>
-        <a href="/admin/importUsers" class="btn btn-primary" style="margin-left: 8px; background: #17a2b8;">批量导入</a>
-
-        <div class="batch-bar" id="batchBar">
-            <span class="batch-info">已选择 <strong id="selectedCount">0</strong> 个用户</span>
-            <button class="btn-batch-delete" onclick="showBatchDeleteModal()">批量删除</button>
-            <button class="btn-batch-cancel" onclick="clearSelection()">取消选择</button>
+    <div class="qzone-page">
+        <div class="qzone-page-header">
+            <h1>管理员控制台 - 用户管理</h1>
+            <div class="qzone-page-actions">
+                <a href="/admin/createUser" class="qzone-btn qzone-btn-primary">新建用户</a>
+                <a href="/admin/importUsers" class="qzone-btn qzone-btn-success" style="background:#17a2b8;">批量导入</a>
+            </div>
         </div>
 
-        <table>
+        <div class="qzone-card qzone-card-nopad">
+            <div class="qzone-batch-bar" id="batchBar">
+                <span class="batch-info">已选择 <strong id="selectedCount">0</strong> 个用户</span>
+                <button class="qzone-btn qzone-btn-danger qzone-btn-sm" onclick="showBatchDeleteModal()">批量删除</button>
+                <button class="qzone-btn qzone-btn-secondary qzone-btn-sm" onclick="clearSelection()">取消选择</button>
+            </div>
+            <div class="qzone-table-wrap">
+            <table class="qzone-table">
             <tr>
                 <th class="cb-col"><input type="checkbox" id="selectAll" onchange="toggleSelectAll(this)"></th>
                 <th>学号</th>
@@ -198,17 +74,19 @@ require ROOT_DIR . '/views/common/navbar.php';
                         <?php
                         if ($user['permissions'] !== 'admin' && $user['permissions'] !== 'administrator') {
                             ?>
-                            <a href="/admin/editUser?stu_no=<?php echo htmlspecialchars($user['stu_no']); ?>" class="btn btn-edit">编辑</a>
+                            <a href="/admin/editUser?stu_no=<?php echo htmlspecialchars($user['stu_no']); ?>" class="qzone-btn qzone-btn-success qzone-btn-sm">编辑</a>
                             <form method="POST" action="/admin/deleteUser" style="display:inline;" class="delete-form">
                                 <?php echo csrfField(); ?>
                                 <input type="hidden" name="stu_no" value="<?php echo htmlspecialchars($user['stu_no']); ?>">
-                                <button type="button" class="btn btn-delete" style="border:none;cursor:pointer;" onclick="showDeleteModal(this, '<?php echo htmlspecialchars($user['name'], ENT_QUOTES); ?>')">删除</button>
+                                <button type="button" class="qzone-btn qzone-btn-danger qzone-btn-sm" style="border:none;cursor:pointer;" onclick="showDeleteModal(this, '<?php echo htmlspecialchars($user['name'], ENT_QUOTES); ?>')">删除</button>
                             </form>
                         <?php } ?>
                     </td>
                 </tr>
             <?php endforeach; ?>
-        </table>
+            </table>
+            </div>
+        </div>
     </div>
 
     <script>

@@ -1,0 +1,512 @@
+/* ===========================
+   QZone 主题通用样式
+   使用 qzone.css 中的 CSS 变量
+   =========================== */
+
+/* 页面容器 */
+.qzone-page {
+    max-width: 1200px;
+    margin: 60px auto 20px;
+    padding: 0 20px;
+}
+
+/* 页面标题 */
+.qzone-page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.qzone-page-header h1,
+.qzone-page-header h2 {
+    font-size: 22px;
+    color: var(--qzone-text-primary, #333);
+    margin: 0;
+    position: relative;
+    padding-left: 14px;
+}
+
+.qzone-page-header h1::before,
+.qzone-page-header h2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 4px;
+    bottom: 4px;
+    width: 4px;
+    background: var(--qzone-primary, #00a1d6);
+    border-radius: 2px;
+}
+
+.qzone-page-header .qzone-page-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+/* 卡片容器 */
+.qzone-card {
+    background: var(--qzone-card-bg, #fff);
+    border-radius: var(--qzone-radius, 12px);
+    box-shadow: var(--qzone-shadow, 0 2px 12px rgba(0, 0, 0, 0.1));
+    border: 1px solid var(--qzone-border, #e7e7e7);
+    padding: 24px;
+    margin-bottom: 20px;
+}
+
+.qzone-card-nopad {
+    padding: 0;
+    overflow: hidden;
+}
+
+/* ===== 按钮 ===== */
+.qzone-btn {
+    display: inline-block;
+    padding: 8px 20px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    text-decoration: none;
+    transition: all 0.25s;
+    line-height: 1.5;
+    text-align: center;
+}
+
+.qzone-btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
+}
+
+.qzone-btn-primary {
+    background: var(--qzone-primary, #00a1d6);
+    color: #fff;
+}
+
+.qzone-btn-primary:hover {
+    background: #0090c0;
+}
+
+.qzone-btn-success {
+    background: #28a745;
+    color: #fff;
+}
+
+.qzone-btn-success:hover {
+    background: #218838;
+}
+
+.qzone-btn-danger {
+    background: #dc3545;
+    color: #fff;
+}
+
+.qzone-btn-danger:hover {
+    background: #c82333;
+}
+
+.qzone-btn-secondary {
+    background: #6c757d;
+    color: #fff;
+}
+
+.qzone-btn-secondary:hover {
+    background: #5a6268;
+}
+
+.qzone-btn-sm {
+    padding: 4px 12px;
+    font-size: 13px;
+}
+
+/* ===== 表格 ===== */
+.qzone-table-wrap {
+    overflow-x: auto;
+}
+
+.qzone-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.qzone-table th,
+.qzone-table td {
+    padding: 12px 14px;
+    border-bottom: 1px solid var(--qzone-border, #e7e7e7);
+    text-align: left;
+}
+
+.qzone-table thead th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: var(--qzone-text-secondary, #666);
+    font-size: 13px;
+    border-bottom: 2px solid var(--qzone-border, #e7e7e7);
+    white-space: nowrap;
+}
+
+.qzone-table tbody tr:hover {
+    background: #f8f9fa;
+}
+
+.qzone-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.qzone-table .cb-col {
+    width: 40px;
+    text-align: center;
+}
+
+.qzone-table .cb-col input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+    cursor: pointer;
+}
+
+.qzone-table .avatar-col {
+    width: 50px;
+    text-align: center;
+}
+
+/* ===== 表单 ===== */
+.qzone-form-item {
+    margin-bottom: 18px;
+}
+
+.qzone-form-label {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--qzone-text-secondary, #555);
+    margin-bottom: 6px;
+}
+
+.qzone-form-input,
+.qzone-form-select,
+.qzone-form-textarea {
+    width: 100%;
+    max-width: 400px;
+    padding: 10px 12px;
+    border: 1px solid var(--qzone-border, #ddd);
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+    background: #fff;
+}
+
+.qzone-form-input:focus,
+.qzone-form-select:focus,
+.qzone-form-textarea:focus {
+    outline: none;
+    border-color: var(--qzone-primary, #00a1d6);
+    box-shadow: 0 0 0 3px rgba(0, 161, 214, 0.12);
+}
+
+.qzone-form-textarea {
+    resize: vertical;
+    min-height: 80px;
+    max-width: 100%;
+}
+
+.qzone-form-inline-label {
+    display: inline-block;
+    width: 100px;
+    font-size: 14px;
+    color: var(--qzone-text-secondary, #555);
+}
+
+/* 内联表单 */
+.qzone-form-inline {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+/* 表单提交栏 */
+.qzone-form-actions {
+    display: flex;
+    gap: 12px;
+    align-items: center;
+    margin-top: 24px;
+}
+
+/* ===== 排序栏 ===== */
+.qzone-sort-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.qzone-sort-bar span {
+    font-size: 14px;
+    color: var(--qzone-text-secondary, #666);
+}
+
+.qzone-sort-btn {
+    padding: 6px 16px;
+    border: 1px solid var(--qzone-border, #ddd);
+    border-radius: 6px;
+    background: #fff;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.qzone-sort-btn:hover {
+    background: #f0f0f0;
+}
+
+.qzone-sort-btn.active {
+    background: var(--qzone-primary, #00a1d6);
+    color: #fff;
+    border-color: var(--qzone-primary, #00a1d6);
+}
+
+/* ===== 状态提示 ===== */
+.qzone-info-box {
+    background: #f8f9fa;
+    border: 1px solid var(--qzone-border, #e0e0e0);
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 20px;
+}
+
+.qzone-info-box h3 {
+    margin: 0 0 10px 0;
+    color: var(--qzone-text-primary, #333);
+    font-size: 16px;
+}
+
+.qzone-info-box p,
+.qzone-info-box ul {
+    font-size: 14px;
+    color: #555;
+    margin: 8px 0;
+}
+
+.qzone-info-box ul {
+    padding-left: 20px;
+}
+
+.qzone-info-box ul li {
+    margin: 4px 0;
+}
+
+/* ===== 批量操作栏 ===== */
+.qzone-batch-bar {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 12px 18px;
+    background: #fff3cd;
+    border: 1px solid #ffc107;
+    border-radius: 8px;
+    margin: 12px 0;
+}
+
+.qzone-batch-bar.active {
+    display: flex;
+}
+
+.qzone-batch-bar .batch-info {
+    font-size: 14px;
+    color: #856404;
+}
+
+/* ===== 上传区域 ===== */
+.qzone-upload-area {
+    border: 2px dashed var(--qzone-border, #ccc);
+    border-radius: 8px;
+    padding: 40px 20px;
+    text-align: center;
+    margin: 20px 0;
+    transition: border-color 0.3s, background 0.3s;
+    cursor: pointer;
+}
+
+.qzone-upload-area:hover {
+    border-color: var(--qzone-primary, #00a1d6);
+}
+
+.qzone-upload-area.dragover {
+    border-color: var(--qzone-primary, #00a1d6);
+    background: #f0f7ff;
+}
+
+.qzone-upload-area p {
+    font-size: 16px;
+    color: #666;
+    margin: 8px 0;
+}
+
+.qzone-upload-area .hint {
+    font-size: 13px;
+    color: #999;
+}
+
+.qzone-upload-area input[type="file"] {
+    display: none;
+}
+
+.qzone-file-name {
+    margin-top: 10px;
+    font-size: 14px;
+    color: #28a745;
+    font-weight: 500;
+}
+
+/* ===== 进度条 ===== */
+.qzone-progress-wrap {
+    margin-top: 16px;
+}
+
+.qzone-progress-bar {
+    width: 100%;
+    height: 8px;
+    background: #e9ecef;
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.qzone-progress-fill {
+    height: 100%;
+    background: var(--qzone-primary, #00a1d6);
+    border-radius: 4px;
+    transition: width 0.3s;
+    width: 0;
+}
+
+.qzone-progress-text {
+    font-size: 13px;
+    color: #666;
+    margin-top: 6px;
+    text-align: center;
+}
+
+/* ===== 头像预览 ===== */
+.qzone-avatar-preview {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    border: 3px solid var(--qzone-border, #ddd);
+    object-fit: cover;
+    margin: 20px auto;
+    display: block;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== 结果弹窗（导入） ===== */
+.qzone-result-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 100000;
+    justify-content: center;
+    align-items: center;
+}
+
+.qzone-result-overlay.active {
+    display: flex;
+}
+
+.qzone-result-box {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    min-width: 360px;
+    max-width: 500px;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+    max-height: 80vh;
+    overflow-y: auto;
+}
+
+.qzone-result-box h3 {
+    font-size: 18px;
+    color: #333;
+    margin: 0 0 12px 0;
+}
+
+.qzone-result-box p {
+    font-size: 14px;
+    color: #555;
+    margin: 6px 0;
+}
+
+.qzone-result-box .success {
+    color: #28a745;
+}
+
+.qzone-result-box .warning {
+    color: #e67e22;
+}
+
+.qzone-result-box .error {
+    color: #dc3545;
+}
+
+/* ===== 响应式 ===== */
+@media (max-width: 992px) {
+    .qzone-page {
+        padding: 0 16px;
+    }
+
+    .qzone-form-input,
+    .qzone-form-select {
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .qzone-page {
+        margin-top: 50px;
+    }
+
+    .qzone-page-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .qzone-page-header .qzone-page-actions {
+        width: 100%;
+    }
+
+    .qzone-form-inline-label {
+        display: block;
+        width: auto;
+        margin-bottom: 4px;
+    }
+}
+
+@media (max-width: 480px) {
+    .qzone-page {
+        margin-top: 40px;
+        padding: 0 12px;
+    }
+
+    .qzone-card {
+        padding: 16px;
+        border-radius: 10px;
+    }
+
+    .qzone-form-input,
+    .qzone-form-select {
+        font-size: 16px;
+    }
+
+    .qzone-avatar-preview {
+        width: 150px;
+        height: 150px;
+    }
+}

@@ -12,26 +12,25 @@ global $avatar;
     left: 0;
     z-index: 9999;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 16px;
+    box-sizing: border-box;
   }
 
   .sidebar-toggle-outer {
-    position: absolute;
-    left: 16px;
-    top: 0;
-    height: 60px;
+    flex-shrink: 0;
     display: flex;
     align-items: center;
-    z-index: 1;
   }
 
   .navbar-content {
-    width: 1200px;
-    max-width: 90%;
-    height: 100%;
-    margin: 0 auto;
+    flex: 1;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-left: 12px;
   }
 
   .navbar-left {
@@ -45,6 +44,8 @@ global $avatar;
     font-weight: bold;
     text-decoration: none;
     color: white;
+    white-space: nowrap;
+    margin-left: 60px;
   }
 
   .sidebar-toggle {
@@ -70,6 +71,7 @@ global $avatar;
     display: flex;
     align-items: center;
     gap: 8px;
+    margin-right: 120px;
   }
 
   .user-avatar {
@@ -337,11 +339,11 @@ global $avatar;
   @media (max-width: 480px) {
     .navbar {
       height: 52px;
+      padding: 0 8px;
     }
 
     .sidebar-toggle-outer {
       height: 52px;
-      left: 10px;
     }
 
     .navbar-content {
@@ -395,6 +397,7 @@ global $avatar;
   <div class="sidebar-nav">
     <a href="/home/users" class="sidebar-link">用户列表</a>
     <a href="/activity/index" class="sidebar-link">活动</a>
+    <!-- <a href="/video/index" class="sidebar-link">📺 视频</a> -->
     <div class="sidebar-section-title">建议与反馈</div>
     <a href="https://codeberg.org/cat_girl/website_of_class_26/issues" class="sidebar-link" target="_blank">Codeberg Issues</a>
     <a href="https://github.com/CatChenHenry/website_of_class_26/issues" class="sidebar-link" target="_blank">GitHub Issues</a>
@@ -426,8 +429,7 @@ global $avatar;
             <a class="dropdown-toggle"><?php echo htmlspecialchars($_SESSION['username']); ?> ▼</a>
           </div>
           <ul class="dropdown-menu">
-            <li><a href="/user/avatar" class="dropdown-item">修改头像</a></li>
-            <li><a href="/user/profile" class="dropdown-item">编辑资料</a></li>
+            <li><a href="/user/homepage?stu_no=<?php echo $_SESSION['id'] ?? ''; ?>" class="dropdown-item">我的主页</a></li>
             <li><a href="/user/changepwd" class="dropdown-item">修改密码</a></li>
             <li class="dropdown-divider"></li>
             <li>

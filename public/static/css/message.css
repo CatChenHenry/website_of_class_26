@@ -97,3 +97,69 @@
 .global-modal-box .modal-btn-confirm.btn-confirm-primary:hover {
     background: #0069d9;
 }
+
+/* 评论输入模态框样式 */
+.comment-modal-box {
+    text-align: left;
+    min-width: 360px;
+}
+
+.comment-modal-box .modal-btn-group {
+    justify-content: flex-end;
+}
+
+.global-modal-comment-input {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.6;
+    resize: vertical;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.global-modal-comment-input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}
+
+/* 输入模态框样式 */
+.input-modal-box {
+    text-align: left;
+    min-width: 320px;
+    max-width: 420px;
+}
+
+.input-modal-box p {
+    font-size: 16px;
+    margin: 0 0 16px 0;
+    color: #333;
+    text-align: left;
+}
+
+.input-modal-box .modal-btn-group {
+    justify-content: flex-end;
+    margin-top: 16px;
+}
+
+.global-modal-input-field {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-size: 14px;
+    font-family: inherit;
+    line-height: 1.5;
+    box-sizing: border-box;
+    outline: none;
+    transition: border-color 0.3s;
+}
+
+.global-modal-input-field:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.15);
+}

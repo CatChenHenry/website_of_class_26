@@ -42,6 +42,7 @@ echo "  PHP 版本: $(php -v | head -1)"
 echo "[2/5] 创建运行时目录..."
 mkdir -p "$PROJECT_DIR/tmp/sessions"
 mkdir -p "$PROJECT_DIR/public/static/avatars"
+mkdir -p "$PROJECT_DIR/public/static/videos"
 
 # 3. 设置目录权限（www-data 为 Apache/Nginx 常用用户）
 echo "[3/5] 设置目录权限..."
@@ -57,6 +58,9 @@ chown -R $WEB_USER:$WEB_USER "$PROJECT_DIR/tmp" 2>/dev/null || true
 
 chmod 755 "$PROJECT_DIR/public/static/avatars"
 chown -R $WEB_USER:$WEB_USER "$PROJECT_DIR/public/static/avatars" 2>/dev/null || true
+
+chmod 755 "$PROJECT_DIR/public/static/videos"
+chown -R $WEB_USER:$WEB_USER "$PROJECT_DIR/public/static/videos" 2>/dev/null || true
 
 # 确保默认头像存在
 if [ ! -f "$PROJECT_DIR/public/static/avatars/default.jpg" ]; then

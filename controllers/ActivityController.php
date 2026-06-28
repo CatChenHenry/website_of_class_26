@@ -217,6 +217,8 @@ class ActivityController
 			header('Content-Type: application/json');
 			if ($result) {
 				$commentId = DB::query("SELECT LAST_INSERT_ID()")->fetchColumn();
+				// 重新查询评论，获取数据库生成的 created_at
+				$newComment = CommentModel::getCommentById((int)$commentId);
 				echo json_encode([
 					'success' => true,
 					'csrf_token' => $_SESSION['csrf_token'] ?? '',
@@ -225,7 +227,7 @@ class ActivityController
 						'username' => $_SESSION['username'],
 						'avatar' => $avatar,
 						'content' => htmlspecialchars($content, ENT_QUOTES, 'UTF-8'),
-						'created_at' => date('Y-m-d H:i:s'),
+						'created_at' => $newComment['created_at'] ?? date('Y-m-d H:i:s'),
 						'stu_no' => $_SESSION['id'],
 						'can_delete' => true
 					]

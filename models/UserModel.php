@@ -22,15 +22,21 @@ class UserModel
 
 	public static function getAllUsers($orderBy = 'stu_no', $orderDir = 'ASC')
 	{
-		$allowedOrders = ['stu_no', 'score'];
-		$allowedDirs = ['ASC', 'DESC'];
-		if (!in_array($orderBy, $allowedOrders)) $orderBy = 'stu_no';
-		if (!in_array(strtoupper($orderDir), $allowedDirs)) $orderDir = 'ASC';
-		$secondarySort = ($orderBy === 'score') ? ', stu_no ASC' : '';
-		$prefixSort = "CASE WHEN permissions = 'admin' OR permissions = 'administrator' OR permissions = 'teacher' THEN 0 WHEN stu_no < 0 THEN 0 ELSE 1 END, ";
-		$sql = "SELECT stu_no, name, email, permissions, stu_class, signature, homepage, avatar, score FROM users ORDER BY $prefixSort$orderBy $orderDir$secondarySort";
-		$stmt = DB::query($sql);
-		return $stmt->fetchAll(PDO::FETCH_ASSOC);
+		$allowed = ['stu_no', 'score'];
+		if (!in_array($orderBy, $allowed)) $orderBy = 'stu_no';
+		$orderDir = strtoupper($orderDir);
+		if ($orderDir !== 'ASC' && $orderDir !== 'DESC') $orderDir = 'ASC';
+
+		// 管理员 / 测试用户（学号为负数）置顶
+		$prefix = "CASE WHEN permissions IN('admin','administrator','teacher') THEN 0 WHEN CAST(stu_no AS SIGNED)<0 THEN 0 ELSE 1 END, ";
+
+		// 强制数值排序
+		$field = ($orderBy === 'stu_no') ? 'CAST(stu_no AS SIGNED)' : 'score';
+		// 按分数排序时，同分按学号升序
+		$tiebreaker = ($orderBy === 'score') ? ', CAST(stu_no AS SIGNED) ASC' : '';
+
+		$sql = "SELECT stu_no, name, email, permissions, stu_class, signature, homepage, avatar, score FROM users ORDER BY $prefix$field $orderDir$tiebreaker";
+		return DB::query($sql)->fetchAll(PDO::FETCH_ASSOC);
 	}
 
 	public static function getUserByStuNo($stuNo)

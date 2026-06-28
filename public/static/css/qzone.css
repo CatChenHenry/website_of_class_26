@@ -1,0 +1,1108 @@
+/* QQ空间风格样式 */
+:root {
+    --qzone-primary: #00a1d6; /* QQ空间主色调 */
+    --qzone-secondary: #ff8a00; /* 次要色调 */
+    --qzone-bg: #f5f5f5; /* 背景色 */
+    --qzone-card-bg: #ffffff; /* 卡片背景 */
+    --qzone-border: #e7e7e7; /* 边框色 */
+    --qzone-text-primary: #333333; /* 主要文字 */
+    --qzone-text-secondary: #666666; /* 次要文字 */
+    --qzone-text-light: #999999; /* 浅色文字 */
+    --qzone-shadow: 0 2px 12px rgba(0, 0, 0, 0.1); /* 阴影 */
+    --qzone-radius: 12px; /* 圆角 */
+    --qzone-avatar-size: 100px; /* 头像大小 */
+}
+
+/* QQ空间布局容器 */
+.qzone-container {
+    max-width: 1200px;
+    margin: 80px auto 20px;
+    padding: 0 20px;
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 20px;
+    min-height: calc(100vh - 100px);
+}
+
+/* 左侧边栏 - 个人资料卡 */
+.qzone-sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.qzone-profile-card {
+    background: var(--qzone-card-bg);
+    border-radius: var(--qzone-radius);
+    box-shadow: var(--qzone-shadow);
+    overflow: hidden;
+    border: 1px solid var(--qzone-border);
+}
+
+/* 个人资料头部（背景图） */
+.qzone-profile-header {
+    height: 120px;
+    background: linear-gradient(135deg, var(--qzone-primary), #0092c9);
+    position: relative;
+}
+
+.qzone-profile-avatar {
+    width: var(--qzone-avatar-size);
+    height: var(--qzone-avatar-size);
+    border-radius: 50%;
+    border: 4px solid white;
+    position: absolute;
+    bottom: -50px;
+    left: 20px;
+    object-fit: cover;
+    background: white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 个人资料主体 */
+.qzone-profile-body {
+    padding: 60px 20px 20px;
+}
+
+.qzone-profile-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: var(--qzone-text-primary);
+    margin-bottom: 8px;
+}
+
+.qzone-profile-signature {
+    color: var(--qzone-text-secondary);
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    padding: 10px;
+    background: #f9f9f9;
+    border-radius: 8px;
+    border-left: 3px solid var(--qzone-primary);
+}
+
+/* 个人资料统计 */
+.qzone-profile-stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--qzone-border);
+}
+
+.qzone-stat-item {
+    text-align: center;
+}
+
+.qzone-stat-value {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--qzone-primary);
+}
+
+.qzone-stat-label {
+    font-size: 12px;
+    color: var(--qzone-text-light);
+    margin-top: 4px;
+}
+
+/* 个人资料操作按钮 */
+.qzone-profile-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.qzone-action-btn {
+    padding: 10px 16px;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+}
+
+.qzone-action-primary {
+    background: var(--qzone-primary);
+    color: white;
+}
+
+.qzone-action-primary:hover {
+    background: #008cc0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 161, 214, 0.3);
+}
+
+.qzone-action-secondary {
+    background: #f0f0f0;
+    color: var(--qzone-text-primary);
+    border: 1px solid var(--qzone-border);
+}
+
+.qzone-action-secondary:hover {
+    background: #e5e5e5;
+    transform: translateY(-2px);
+}
+
+/* 右侧主内容区 */
+.qzone-main-content {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/* 动态发布框 */
+.qzone-post-box {
+    background: var(--qzone-card-bg);
+    border-radius: var(--qzone-radius);
+    box-shadow: var(--qzone-shadow);
+    padding: 20px;
+    border: 1px solid var(--qzone-border);
+}
+
+.qzone-post-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.qzone-post-avatar {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.qzone-post-input-container {
+    flex: 1;
+    max-width: calc(100% - 60px); /* 防止超出，留出头像和间距的空间 */
+    min-width: 0; /* 允许 flex 子项在容器中缩小 */
+    overflow: hidden; /* 防止内容溢出 */
+}
+
+.qzone-post-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--qzone-border);
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 60px;
+    font-family: inherit;
+    transition: border-color 0.3s;
+    box-sizing: border-box; /* 确保 padding 和 border 包含在宽度内 */
+}
+
+.qzone-post-input:focus {
+    outline: none;
+    border-color: var(--qzone-primary);
+    box-shadow: 0 0 0 3px rgba(0, 161, 214, 0.1);
+}
+
+.qzone-post-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--qzone-border);
+}
+
+.qzone-post-tools {
+    display: flex;
+    gap: 12px;
+}
+
+.qzone-post-tool {
+    background: none;
+    border: none;
+    color: var(--qzone-text-light);
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    transition: all 0.3s;
+}
+
+.qzone-post-tool:hover {
+    background: #f5f5f5;
+    color: var(--qzone-primary);
+}
+
+.qzone-post-tip {
+    color: var(--qzone-text-light);
+    font-size: 13px;
+    font-style: italic;
+    padding: 8px 0;
+    user-select: none;
+}
+
+.qzone-post-submit {
+    padding: 10px 24px;
+    background: var(--qzone-primary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.qzone-post-submit:hover {
+    background: #008cc0;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 161, 214, 0.3);
+}
+
+/* 动态列表 */
+.qzone-posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.qzone-post-item {
+    background: var(--qzone-card-bg);
+    border-radius: var(--qzone-radius);
+    box-shadow: var(--qzone-shadow);
+    padding: 20px;
+    border: 1px solid var(--qzone-border);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.qzone-post-item:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.qzone-post-item-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.qzone-post-item-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.qzone-post-item-info {
+    flex: 1;
+}
+
+.qzone-post-item-author {
+    font-size: 15px;
+    font-weight: bold;
+    color: var(--qzone-text-primary);
+    margin-bottom: 2px;
+}
+
+.qzone-post-item-time {
+    font-size: 12px;
+    color: var(--qzone-text-light);
+}
+
+.qzone-post-item-content {
+    color: var(--qzone-text-primary);
+    line-height: 1.6;
+    margin-bottom: 16px;
+    font-size: 14px;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.qzone-post-item-media {
+    margin-bottom: 16px;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.qzone-post-item-media img {
+    width: 100%;
+    max-height: 400px;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.qzone-post-item-stats {
+    display: flex;
+    justify-content: space-between;
+    color: var(--qzone-text-light);
+    font-size: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--qzone-border);
+    margin-bottom: 16px;
+}
+
+.qzone-post-item-actions {
+    display: flex;
+    gap: 20px;
+}
+
+.qzone-post-action {
+    background: none;
+    border: none;
+    color: var(--qzone-text-light);
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    transition: all 0.3s;
+}
+
+.qzone-post-action:hover {
+    background: #f5f5f5;
+    color: var(--qzone-primary);
+}
+
+.qzone-post-action.active {
+    color: var(--qzone-primary);
+    background: rgba(0, 161, 214, 0.1);
+}
+
+/* 相册区域 */
+.qzone-album-section {
+    background: var(--qzone-card-bg);
+    border-radius: var(--qzone-radius);
+    box-shadow: var(--qzone-shadow);
+    padding: 20px;
+    border: 1px solid var(--qzone-border);
+}
+
+.qzone-section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.qzone-section-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--qzone-text-primary);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qzone-section-more {
+    color: var(--qzone-primary);
+    text-decoration: none;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.qzone-album-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+}
+
+.qzone-album-item {
+    aspect-ratio: 4/3;
+    border-radius: 12px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s, transform 0.3s;
+    content-visibility: auto;
+    contain-intrinsic-size: auto 200px;
+}
+
+/* 创建相册占位卡片 */
+.qzone-album-create {
+    aspect-ratio: 4/3;
+    border-radius: 12px;
+    border: 2px dashed var(--qzone-primary, #00a1d6);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--qzone-primary, #00a1d6);
+    font-size: 14px;
+    gap: 8px;
+    transition: background 0.3s, border-color 0.3s, transform 0.3s;
+    background: #f8fcff;
+}
+.qzone-album-create:hover {
+    background: #eef7ff;
+    border-color: #0080b0;
+    transform: translateY(-2px);
+}
+.qzone-album-create-icon {
+    font-size: 32px;
+    line-height: 1;
+}
+
+.qzone-album-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.qzone-album-item:hover {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+    transform: translateY(-4px);
+}
+
+.qzone-album-item:hover img {
+    transform: scale(1.03);
+}
+
+.qzone-album-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.4), transparent);
+    color: white;
+    padding: 16px 12px 12px;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 1.3;
+    opacity: 0.95;
+    transition: opacity 0.3s;
+}
+
+.qzone-album-count {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: rgba(0, 0, 0, 0.75);
+    color: white;
+    font-size: 11px;
+    font-weight: 500;
+    padding: 4px 8px;
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+}
+
+/* 空相册图标 */
+.qzone-album-empty {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 28px;
+    color: #ccc;
+}
+
+/* 删除相册按钮 */
+.qzone-album-delete-btn {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background: rgba(220, 53, 69, 0.85);
+    color: #fff;
+    border: none;
+    border-radius: 6px;
+    width: 28px;
+    height: 28px;
+    font-size: 12px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.2s;
+    z-index: 2;
+}
+.qzone-album-item:hover .qzone-album-delete-btn { opacity: 1; }
+
+/* ===== 相册详情弹窗 ===== */
+.album-modal-overlay {
+    display: none;
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 100001;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+.album-modal-overlay.active { display: flex; }
+.album-modal-box {
+    background: #fff;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 800px;
+    max-height: 85vh;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+    animation: albumSlideIn 0.25s ease;
+}
+@keyframes albumSlideIn {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+.album-modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 16px 24px;
+    border-bottom: 1px solid var(--qzone-border, #e7e7e7);
+}
+.album-modal-header h3 { margin: 0; font-size: 18px; color: #333; }
+.album-modal-close {
+    background: none;
+    border: none;
+    font-size: 28px;
+    color: #999;
+    cursor: pointer;
+    padding: 0 4px;
+    line-height: 1;
+    transition: color 0.2s;
+}
+.album-modal-close:hover { color: #333; }
+.album-modal-body {
+    padding: 20px 24px;
+    overflow-y: auto;
+    flex: 1;
+}
+.album-photo-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    grid-auto-columns: minmax(160px, 1fr);
+    gap: 12px;
+}
+.album-photo-item {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.15s ease;
+}
+/* 拖拽时禁用所有子元素的 transition，避免 grid 重排时的抖动 */
+.album-photo-grid.is-dragging > .album-photo-item,
+.album-photo-grid.is-dragging > .album-photo-placeholder {
+    transition: none !important;
+}
+/* 拖拽目标高亮 */
+.album-photo-target {
+    outline: 3px solid #ff8a00 !important;
+    outline-offset: -3px;
+    opacity: 0.55;
+}
+.album-photo-item:hover {
+    transform: scale(1.03);
+    box-shadow: 0 4px 16px rgba(0,0,0,0.15);
+}
+.album-photo-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+/* 照片操作按钮容器 */
+.album-photo-actions {
+    position: absolute;
+    bottom: 6px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 6px;
+    opacity: 0;
+    transition: opacity 0.2s;
+}
+.album-photo-item:hover .album-photo-actions { opacity: 1; }
+
+.album-photo-cover-btn,
+.album-photo-delete-btn {
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    padding: 4px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.2s;
+    font-family: inherit;
+}
+.album-photo-cover-btn:hover { background: rgba(0,161,214,0.85); }
+.album-photo-delete-btn:hover { background: rgba(220,53,69,0.85); }
+
+/* 封面标识 */
+.album-photo-cover-badge {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    background: var(--qzone-primary, #00a1d6);
+    color: #fff;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* 拖拽排序 */
+.album-photo-item.draggable { cursor: grab; }
+.album-photo-item.draggable:active { cursor: grabbing; }
+
+/* 拖拽占位符（真实 DOM 元素） */
+.album-photo-placeholder {
+    aspect-ratio: 1;
+    border-radius: 8px;
+    border: 2px dashed var(--qzone-primary, #00a1d6);
+    background: rgba(0, 161, 214, 0.08);
+    box-sizing: border-box;
+    animation: placeholder-pulse 1s ease-in-out infinite alternate;
+    transition: opacity 0.2s ease;
+}
+
+/* FLIP 滑动动画（仅在拖拽时启用） */
+.flip-animating .album-photo-item,
+.flip-animating .album-photo-placeholder {
+    transition: transform 0.45s cubic-bezier(0.2, 0.8, 0.2, 1.2) !important;
+}
+.flip-animating .album-photo-item.no-transition,
+.flip-animating .album-photo-placeholder.no-transition {
+    transition: none !important;
+}
+
+@keyframes placeholder-pulse {
+    from { border-color: rgba(0, 161, 214, 0.4); background: rgba(0, 161, 214, 0.04); }
+    to   { border-color: rgba(0, 161, 214, 0.9); background: rgba(0, 161, 214, 0.12); }
+}
+.album-upload-area {
+    padding-bottom: 16px;
+    margin-bottom: 16px;
+    border-bottom: 1px solid var(--qzone-border, #eee);
+}
+
+/* ===== 图片大图预览 ===== */
+.photo-preview-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.9);
+    z-index: 100099;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: zoom-out;
+}
+.photo-preview-img {
+    max-width: 92vw;
+    max-height: 92vh;
+    object-fit: contain;
+    border-radius: 4px;
+    box-shadow: 0 4px 30px rgba(0,0,0,0.5);
+}
+
+/* 留言板区域 */
+.qzone-guestbook-section {
+    background: var(--qzone-card-bg);
+    border-radius: var(--qzone-radius);
+    box-shadow: var(--qzone-shadow);
+    padding: 20px;
+    border: 1px solid var(--qzone-border);
+}
+
+.qzone-guestbook-form {
+    margin-bottom: 24px;
+}
+
+.qzone-guestbook-input {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid var(--qzone-border);
+    border-radius: 8px;
+    font-size: 14px;
+    resize: vertical;
+    min-height: 80px;
+    margin-bottom: 12px;
+    font-family: inherit;
+    box-sizing: border-box; /* 确保 padding 和 border 包含在宽度内 */
+}
+
+.qzone-guestbook-submit {
+    padding: 10px 24px;
+    background: var(--qzone-secondary);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.qzone-guestbook-submit:hover {
+    background: #e67d00;
+    transform: translateY(-2px);
+}
+
+.qzone-guestbook-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+}
+
+.qzone-guestbook-item {
+    display: flex;
+    gap: 12px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--qzone-border);
+}
+
+.qzone-guestbook-item:last-child {
+    border-bottom: none;
+}
+
+.qzone-guestbook-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+}
+
+.qzone-guestbook-content {
+    flex: 1;
+}
+
+.qzone-guestbook-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 6px;
+}
+
+.qzone-guestbook-author {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--qzone-text-primary);
+}
+
+.qzone-guestbook-time {
+    font-size: 11px;
+    color: var(--qzone-text-light);
+}
+
+.qzone-guestbook-message {
+    font-size: 13px;
+    color: var(--qzone-text-secondary);
+    line-height: 1.5;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* 响应式设计 */
+@media (max-width: 992px) {
+    .qzone-container {
+        grid-template-columns: 1fr;
+        gap: 16px;
+    }
+    
+    .qzone-sidebar {
+        position: static;
+    }
+    
+    .qzone-profile-avatar {
+        left: 50%;
+        transform: translateX(-50%);
+        bottom: -50px;
+    }
+    
+    .qzone-profile-body {
+        padding-top: 80px;
+        text-align: center;
+    }
+    
+    .qzone-album-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .qzone-container {
+        padding: 0 16px;
+        margin-top: 70px;
+    }
+    
+    .qzone-profile-header {
+        height: 100px;
+    }
+    
+    .qzone-avatar-size {
+        width: 80px;
+        height: 80px;
+        bottom: -40px;
+    }
+    
+    .qzone-post-actions {
+        flex-direction: column;
+        gap: 12px;
+    }
+    
+    .qzone-post-tools {
+        width: 100%;
+        justify-content: space-between;
+    }
+    
+    .qzone-post-submit {
+        width: 100%;
+    }
+    
+    .qzone-album-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .qzone-container {
+        padding: 0 12px;
+        margin-top: 60px;
+    }
+    
+    .qzone-profile-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .qzone-album-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .qzone-post-item-actions {
+        flex-wrap: wrap;
+        gap: 12px;
+    }
+    
+    .qzone-post-action {
+        flex: 1;
+        justify-content: center;
+    }
+}
+
+/* 动画效果 */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.qzone-post-item,
+.qzone-guestbook-item,
+.qzone-album-item {
+    animation: fadeIn 0.5s ease-out;
+}
+
+/* 加载动画 */
+.qzone-loading {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.qzone-spinner {
+    width: 40px;
+    height: 40px;
+    border: 4px solid #f3f3f3;
+    border-top: 4px solid var(--qzone-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* 字符计数器 */
+.qzone-char-counter {
+    font-size: 12px;
+    color: var(--qzone-text-light);
+    text-align: right;
+    margin-top: 4px;
+    transition: color 0.3s;
+}
+
+.qzone-char-counter.warning {
+    color: #ff8a00;
+}
+
+.qzone-char-counter.error {
+    color: #dc3545;
+}
+
+/* 动态内容展开/收起 */
+.qzone-post-content-text {
+    display: inline;
+    word-break: break-word;
+}
+
+.qzone-post-content-text.truncated {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-height: 4.5em;
+    line-height: 1.5em;
+}
+
+.qzone-post-more-btn {
+    background: none;
+    border: none;
+    color: var(--qzone-primary);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 8px;
+    margin-left: 4px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+}
+
+.qzone-post-more-btn:hover {
+    background-color: rgba(0, 161, 214, 0.1);
+}
+
+/* 评论区域样式 */
+.qzone-post-comments {
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--qzone-border);
+}
+
+.qzone-comment-list {
+    margin-bottom: 12px;
+}
+
+.qzone-comment-item {
+    display: flex;
+    margin-bottom: 12px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.qzone-comment-item:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.qzone-comment-avatar {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    margin-right: 12px;
+    flex-shrink: 0;
+}
+
+.qzone-comment-content {
+    flex: 1;
+}
+
+.qzone-comment-author {
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--qzone-text-primary);
+    margin-bottom: 4px;
+}
+
+.qzone-comment-text {
+    font-size: 14px;
+    line-height: 1.5;
+    color: var(--qzone-text-secondary);
+    word-break: break-word;
+}
+
+.qzone-comment-time {
+    font-size: 12px;
+    color: var(--qzone-text-light);
+    margin-top: 4px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.qzone-comment-delete {
+    background: none;
+    border: none;
+    color: #ccc;
+    cursor: pointer;
+    padding: 2px 4px;
+    font-size: 11px;
+    border-radius: 3px;
+    transition: all 0.2s;
+    opacity: 0;
+}
+
+.qzone-comment-item:hover .qzone-comment-delete {
+    opacity: 1;
+}
+
+.qzone-comment-delete:hover {
+    color: #dc3545;
+    background: #fff0f0;
+}
+
+.qzone-comment-expand-btn {
+    background: none;
+    border: none;
+    color: var(--qzone-primary);
+    cursor: pointer;
+    font-size: 13px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    transition: background-color 0.3s;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.qzone-comment-expand-btn:hover {
+    background-color: rgba(0, 161, 214, 0.1);
+}
+
+.qzone-comment-loading {
+    text-align: center;
+    padding: 12px;
+    color: var(--qzone-text-light);
+    font-size: 13px;
+}
+
+.qzone-comment-empty {
+    text-align: center;
+    padding: 12px;
+    color: var(--qzone-text-light);
+    font-size: 13px;
+    font-style: italic;
+}

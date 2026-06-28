@@ -18,7 +18,7 @@ sleep 1
 sudo service mariadb start 2>/dev/null || sudo service mysql start 2>/dev/null
 
 # 使用 nohup 启动 PHP 服务器（脱离终端）
-nohup php -S 0.0.0.0:8080 router.php > /tmp/php-server.log 2>&1 &
+nohup php -d upload_max_filesize=500M -d post_max_size=520M -d max_execution_time=300 -d max_input_time=300 -S 0.0.0.0:8080 router.php > /tmp/php-server.log 2>&1 &
 echo $! > /tmp/php-server.pid
 sleep 2
 

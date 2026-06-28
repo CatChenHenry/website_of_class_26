@@ -11,52 +11,22 @@ require ROOT_DIR . '/views/common/navbar.php';
     <title>编辑活动</title>
     <link rel="stylesheet" href="https://unpkg.com/katex@0.16.21/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <link rel="stylesheet" href="/static/css/qzone-base.css">
     <script src="https://cdn.bootcdn.net/ajax/libs/marked/14.0.0/marked.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
     <script src="https://unpkg.com/katex@0.16.21/dist/katex.min.js"></script>
     <script src="https://cdn.bootcdn.net/ajax/libs/dompurify/3.2.5/purify.min.js"></script>
     <style>
-        .container {
-            width: 1000px;
-            margin: 20px auto;
-            margin-top: 60px;
-        }
-
-        h1 {
-            font-size: 24px;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .form-item {
-            margin: 15px 0;
-        }
-
-        label {
-            display: inline-block;
-            width: 100px;
-            font-size: 15px;
-        }
-
-        input[type="text"],
-        input[type="datetime-local"] {
-            padding: 8px;
-            width: 400px;
-            font-size: 14px;
-        }
-
         .editor-area {
             display: flex;
             gap: 16px;
             margin-top: 8px;
         }
-
         .editor-pane, .preview-pane {
             flex: 1;
             min-width: 0;
             overflow: hidden;
         }
-
         .editor-pane label,
         .preview-pane label {
             display: block;
@@ -65,31 +35,29 @@ require ROOT_DIR . '/views/common/navbar.php';
             color: #555;
             margin-bottom: 6px;
         }
-
-        textarea {
+        .editor-textarea {
             width: 100%;
             height: 400px;
             padding: 12px;
             font-size: 14px;
             font-family: 'Consolas', 'Monaco', monospace;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid var(--qzone-border, #ddd);
+            border-radius: var(--qzone-radius, 12px);
             resize: vertical;
             box-sizing: border-box;
+            transition: border-color 0.3s;
         }
-
-        textarea:focus {
+        .editor-textarea:focus {
             outline: none;
-            border-color: #007bff;
+            border-color: var(--qzone-primary, #00a1d6);
         }
-
         .preview-box {
             width: 100%;
             min-height: 400px;
             max-height: 400px;
             padding: 12px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
+            border: 1px solid var(--qzone-border, #ddd);
+            border-radius: var(--qzone-radius, 12px);
             background: #fafafa;
             overflow-y: auto;
             line-height: 1.8;
@@ -98,156 +66,63 @@ require ROOT_DIR . '/views/common/navbar.php';
             scrollbar-gutter: stable;
         }
 
-        .preview-box h1, .preview-box h2, .preview-box h3 {
-            margin-top: 16px;
-            margin-bottom: 8px;
-        }
-
+        .preview-box h1, .preview-box h2, .preview-box h3 { margin-top: 16px; margin-bottom: 8px; }
         .preview-box p { margin: 8px 0; }
-
-        .preview-box pre {
-            background: #f6f8fa;
-            padding: 12px;
-            border-radius: 4px;
-            overflow-x: auto;
-        }
-
+        .preview-box pre { background: #f6f8fa; padding: 12px; border-radius: 4px; overflow-x: auto; }
         .preview-box code { font-size: 14px; }
-
         .preview-box img { max-width: 100%; height: auto; }
-
         .preview-box table { border-collapse: collapse; margin: 8px 0; width: 100%; table-layout: fixed; }
-
         .preview-box pre { white-space: pre-wrap; word-break: break-all; }
-
-        .preview-box th, .preview-box td {
-            border: 1px solid #ddd;
-            padding: 6px 10px;
-        }
-
+        .preview-box th, .preview-box td { border: 1px solid #ddd; padding: 6px 10px; }
         .preview-box th { background: #f6f8fa; }
-
-        .preview-box blockquote {
-            border-left: 4px solid #ddd;
-            padding-left: 14px;
-            color: #666;
-            margin: 8px 0;
-        }
-
-        .btn {
-            padding: 8px 20px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-        }
-
-        .btn-submit {
-            background: #007bff;
-            color: white;
-        }
-
-        .btn-back {
-            background: #6c757d;
-            color: white;
-            text-decoration: none;
-        }
-
+        .preview-box blockquote { border-left: 4px solid #ddd; padding-left: 14px; color: #666; margin: 8px 0; }
         @media (max-width: 768px) {
-            .container {
-                width: 100%;
-                margin-top: 40px;
-                padding: 0 16px;
-                box-sizing: border-box;
-            }
-
-            .editor-area {
-                flex-direction: column;
-            }
-
-            textarea {
-                height: 250px;
-            }
-
-            .preview-box {
-                min-height: 200px;
-                max-height: 200px;
-            }
-
-            input[type="text"],
-            input[type="datetime-local"] {
-                width: 100%;
-                max-width: 400px;
-            }
-
-            label {
-                display: block;
-                width: auto;
-                margin-bottom: 6px;
-            }
+            .editor-area { flex-direction: column; }
+            .editor-textarea { height: 250px; }
+            .preview-box { min-height: 200px; max-height: 200px; }
         }
-
         @media (max-width: 480px) {
-            .container {
-                margin-top: 30px;
-                padding: 0 12px;
-            }
-
-            h1 {
-                font-size: 20px;
-            }
-
-            textarea {
-                height: 200px;
-                font-size: 13px;
-            }
-
-            .preview-box {
-                min-height: 150px;
-                max-height: 150px;
-                font-size: 14px;
-            }
-
-            input[type="text"],
-            input[type="datetime-local"] {
-                font-size: 16px;
-            }
+            .editor-textarea { height: 200px; font-size: 13px; }
+            .preview-box { min-height: 150px; max-height: 150px; font-size: 14px; }
         }
     </style>
 </head>
 
 <body>
-    <div class="container">
-        <h1>编辑活动</h1>
-        <form method="POST" action="/activity/update" id="activityForm">
-            <?php echo csrfField(); ?>
-            <input type="hidden" name="id" value="<?php echo (int) $activity['id']; ?>">
-            <div class="form-item">
-                <label>活动名称：</label>
-                <input type="text" name="name" id="actName" required maxlength="255" value="<?php echo htmlspecialchars($activity['name']); ?>">
+    <div class="qzone-page">
+        <div class="qzone-card">
+            <div class="qzone-page-header">
+                <h1>编辑活动</h1>
             </div>
-            <div class="form-item">
-                <label>活动时间：</label>
-                <input type="datetime-local" name="activity_time" id="actTime" required value="<?php echo htmlspecialchars(date('Y-m-d\TH:i', strtotime($activity['activity_time']))); ?>">
-            </div>
-            <div class="form-item">
-                <div class="editor-area">
-                    <div class="editor-pane">
-                        <label>活动内容（Markdown）</label>
-                        <textarea name="content" id="contentEditor" placeholder="支持 Markdown 语法"><?php echo htmlspecialchars($activity['content'] ?? ''); ?></textarea>
-                    </div>
-                    <div class="preview-pane">
-                        <label>实时预览</label>
-                        <div class="preview-box" id="previewBox"></div>
+            <form method="POST" action="/activity/update" id="activityForm">
+                <?php echo csrfField(); ?>
+                <input type="hidden" name="id" value="<?php echo (int) $activity['id']; ?>">
+                <div class="qzone-form-item">
+                    <label class="qzone-form-label">活动名称</label>
+                    <input type="text" name="name" id="actName" class="qzone-form-input" required maxlength="255" value="<?php echo htmlspecialchars($activity['name']); ?>">
+                </div>
+                <div class="qzone-form-item">
+                    <label class="qzone-form-label">活动时间</label>
+                    <input type="datetime-local" name="activity_time" id="actTime" class="qzone-form-input" required value="<?php echo htmlspecialchars(date('Y-m-d\TH:i', strtotime($activity['activity_time']))); ?>">
+                </div>
+                <div class="qzone-form-item">
+                    <div class="editor-area">
+                        <div class="editor-pane">
+                            <label>活动内容（Markdown）</label>
+                            <textarea name="content" id="contentEditor" class="editor-textarea" placeholder="支持 Markdown 语法"><?php echo htmlspecialchars($activity['content'] ?? ''); ?></textarea>
+                        </div>
+                        <div class="preview-pane">
+                            <label>实时预览</label>
+                            <div class="preview-box" id="previewBox"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div class="form-item" style="margin-top: 20px;">
-                <label></label>
-                <button type="submit" class="btn btn-submit">保存</button>
-                <a href="javascript:history.back()" class="btn btn-back" style="margin-left: 10px;">返回</a>
-            </div>
-        </form>
+                <div class="qzone-form-actions">
+                    <button type="submit" class="qzone-btn qzone-btn-primary">保存</button>
+                    <a href="javascript:history.back()" class="qzone-btn qzone-btn-secondary">返回</a>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script>

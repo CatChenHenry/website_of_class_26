@@ -13,174 +13,29 @@ $username = $_SESSION['username'] ?? '游客';
     <title><?= htmlspecialchars($username) ?> - 个人资料编辑</title>
     <link rel="stylesheet" href="https://unpkg.com/katex@0.16.21/dist/katex.min.css">
     <link rel="stylesheet" href="https://cdn.bootcdn.net/ajax/libs/highlight.js/11.9.0/styles/github.min.css">
+    <link rel="stylesheet" href="/static/css/message.css">
+    <link rel="stylesheet" href="/static/css/qzone-base.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: "Microsoft Yahei", sans-serif;
-            background-color: #f5f5f5;
-        }
-
-        .container {
-            width: 80%;
-            max-width: 1200px;
-            margin: 70px auto;
-            background: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-        }
-
-        h2 {
-            color: #333;
-            margin-bottom: 20px;
-            border-bottom: 1px solid #eee;
-            padding-bottom: 10px;
-        }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 600;
-            color: #555;
-        }
-
-        .signature-wrap {
-            position: relative;
-        }
-
-        #signature {
-            width: 100%;
-            height: 80px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: none;
-        }
-
-        .length-tip {
-            position: absolute;
-            right: 10px;
-            bottom: 10px;
-            color: #999;
-            font-size: 12px;
-        }
-
-        #homepage {
-            width: 100%;
-            height: 300px;
-            padding: 10px;
-            border: 1px solid #ddd;
-            border-radius: 4px;
-            font-size: 14px;
-            line-height: 1.6;
-            resize: vertical;
-        }
-
-        .btn-group {
-            margin: 20px 0;
-        }
-
-        button {
-            padding: 8px 20px;
-            margin-right: 10px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            font-size: 14px;
-            background-color: #007bff;
-            color: white;
-        }
-
-        button:hover {
-            background-color: #0056b3;
-        }
-
-        #preview-area {
-            border: 1px solid #eee;
-            border-radius: 4px;
-            padding: 20px;
-            margin-top: 10px;
-            display: none;
-            background-color: #fafafa;
-        }
-
-        #signature-preview {
-            margin: 10px 0;
-            padding: 10px;
-            border: 1px solid #eee;
-            border-radius: 4px;
-            font-size: 16px;
-        }
-
-        .katex {
-            font-size: 1.1em !important;
-        }
-
-        .katex-display {
-            text-align: center;
-            margin: 1em 0;
-        }
-
+        .signature-wrap { position: relative; }
+        #signature { width: 100%; height: 80px; padding: 10px; border: 1px solid var(--qzone-border,#ddd); border-radius: 6px; font-size: 14px; line-height: 1.6; resize: none; font-family: inherit; box-sizing: border-box; }
+        #signature:focus { outline: none; border-color: var(--qzone-primary,#00a1d6); box-shadow: 0 0 0 3px rgba(0,161,214,.12); }
+        .length-tip { position: absolute; right: 10px; bottom: 10px; color: #999; font-size: 12px; }
+        #homepage { width: 100%; height: 300px; padding: 10px; border: 1px solid var(--qzone-border,#ddd); border-radius: 6px; font-size: 14px; line-height: 1.6; resize: vertical; font-family: inherit; box-sizing: border-box; }
+        #homepage:focus { outline: none; border-color: var(--qzone-primary,#00a1d6); box-shadow: 0 0 0 3px rgba(0,161,214,.12); }
+        .signature-toolbar { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 8px; }
+        .signature-toolbar button { padding: 4px 12px; border: 1px solid var(--qzone-border,#ddd); border-radius: 4px; background: #fff; cursor: pointer; font-size: 14px; font-family: inherit; transition: all .2s; }
+        .signature-toolbar button:hover { background: #f0f0f0; border-color: var(--qzone-primary,#00a1d6); }
+        #signature-preview { margin: 10px 0; padding: 10px; border: 1px solid var(--qzone-border,#eee); border-radius: 6px; font-size: 16px; background: #fafafa; }
+        #preview-area { border: 1px solid var(--qzone-border,#eee); border-radius: 6px; padding: 20px; margin-top: 10px; display: none; background-color: #fafafa; }
+        .katex { font-size: 1.1em !important; }
+        .katex-display { text-align: center; margin: 1em 0; }
         @media (max-width: 768px) {
-            .container {
-                width: 100%;
-                max-width: 100%;
-                margin: 50px 0;
-                padding: 16px;
-                border-radius: 0;
-            }
-
-            .signature-toolbar {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 4px;
-            }
-
-            .signature-toolbar button {
-                padding: 4px 10px;
-                margin-right: 0;
-                font-size: 13px;
-            }
-
-            #homepage {
-                height: 200px;
-            }
+            .signature-toolbar button { padding: 4px 10px; font-size: 13px; }
+            #homepage { height: 200px; }
         }
-
         @media (max-width: 480px) {
-            .container {
-                margin: 40px 0;
-                padding: 12px;
-            }
-
-            h2 {
-                font-size: 18px;
-            }
-
-            .signature-toolbar button {
-                padding: 3px 8px;
-                font-size: 12px;
-            }
-
-            #signature {
-                font-size: 13px;
-            }
-
-            #homepage {
-                height: 160px;
-                font-size: 13px;
-            }
+            #homepage { height: 160px; font-size: 13px; }
+            #signature { font-size: 13px; }
         }
     </style>
 </head>
@@ -189,41 +44,45 @@ $username = $_SESSION['username'] ?? '游客';
     <?php
     require ROOT_DIR . '/views/common/navbar.php';
     ?>
-    <div class="container">
-        <h2>个人资料编辑</h2>
-        <form method="POST" id="profile-form" action="/user/ChangeProfile">
-            <?php echo csrfField(); ?>
-            <div class="form-group">
-                <label for="signature">个性签名（长度≤15字符，支持简单HTML样式）</label>
-                <div class="signature-toolbar">
-                    <button type="button" onclick="wrapSig('b')" title="加粗"><b>B</b></button>
-                    <button type="button" onclick="wrapSig('i')" title="斜体"><i>I</i></button>
-                    <button type="button" onclick="wrapSig('u')" title="下划线"><u>U</u></button>
-                    <button type="button" onclick="wrapSig('s')" title="删除线"><s>S</s></button>
-                    <button type="button" onclick="wrapSig('em')" title="强调"><em>em</em></button>
-                    <button type="button" onclick="wrapSig('strong')" title="着重"><strong>strong</strong></button>
-                    <button type="button" onclick="wrapSig('small')" title="小字"><small>小</small></button>
-                    <button type="button" onclick="wrapSig('sub')" title="下标">X<sub>n</sub></button>
-                    <button type="button" onclick="wrapSig('sup')" title="上标">X<sup>n</sup></button>
+    <div class="qzone-page">
+        <div class="qzone-card">
+            <div class="qzone-page-header">
+                <h2>个人资料编辑</h2>
+            </div>
+            <form method="POST" id="profile-form" action="/user/ChangeProfile">
+                <?php echo csrfField(); ?>
+                <div class="qzone-form-item">
+                    <label class="qzone-form-label" for="signature">个性签名（长度≤15字符，支持简单HTML样式）</label>
+                    <div class="signature-toolbar">
+                        <button type="button" onclick="wrapSig('b')" title="加粗"><b>B</b></button>
+                        <button type="button" onclick="wrapSig('i')" title="斜体"><i>I</i></button>
+                        <button type="button" onclick="wrapSig('u')" title="下划线"><u>U</u></button>
+                        <button type="button" onclick="wrapSig('s')" title="删除线"><s>S</s></button>
+                        <button type="button" onclick="wrapSig('em')" title="强调"><em>em</em></button>
+                        <button type="button" onclick="wrapSig('strong')" title="着重"><strong>strong</strong></button>
+                        <button type="button" onclick="wrapSig('small')" title="小字"><small>小</small></button>
+                        <button type="button" onclick="wrapSig('sub')" title="下标">X<sub>n</sub></button>
+                        <button type="button" onclick="wrapSig('sup')" title="上标">X<sup>n</sup></button>
+                    </div>
+                    <div class="signature-wrap">
+                        <textarea id="signature" name="signature"
+                            placeholder="输入个性签名，如：<b>加粗</b> <i>斜体</i>"><?= htmlspecialchars($signature_content) ?></textarea>
+                        <span class="length-tip" id="signature-length">0/15</span>
+                    </div>
+                    <div id="signature-preview">预览：<?= sanitizeHtml($signature_content) ?></div>
                 </div>
-                <div class="signature-wrap">
-                    <textarea id="signature" name="signature"
-                        placeholder="输入个性签名，如：<b>加粗</b> <i>斜体</i>"><?= htmlspecialchars($signature_content) ?></textarea>
-                    <span class="length-tip" id="signature-length">0/15</span>
+                <div class="qzone-form-item">
+                    <label class="qzone-form-label" for="homepage">个人主页内容（支持Markdown、KaTex、代码高亮）</label>
+                    <textarea id="homepage" name="homepage"
+                        placeholder="输入个人主页内容"><?= htmlspecialchars($homepage_content) ?></textarea>
                 </div>
-                <div id="signature-preview">预览：<?= sanitizeHtml($signature_content) ?></div>
-            </div>
-            <div class="form-group">
-                <label for="homepage">个人主页内容（支持Markdown、KaTex、代码高亮）</label>
-                <textarea id="homepage" name="homepage"
-                    placeholder="输入个人主页内容"><?= htmlspecialchars($homepage_content) ?></textarea>
-            </div>
-            <div class="btn-group">
-                <button type="submit" id="save-btn">保存所有内容</button>
-                <button type="button" id="preview-btn">预览个人主页</button>
-            </div>
-        </form>
-        <div id="preview-area"></div>
+                <div class="qzone-form-actions">
+                    <button type="submit" id="save-btn" class="qzone-btn qzone-btn-primary">保存所有内容</button>
+                    <button type="button" id="preview-btn" class="qzone-btn qzone-btn-secondary">预览个人主页</button>
+                </div>
+            </form>
+            <div id="preview-area"></div>
+        </div>
     </div>
 
     <script src="https://cdn.bootcdn.net/ajax/libs/marked/14.0.0/marked.min.js"></script>
@@ -316,6 +175,8 @@ $username = $_SESSION['username'] ?? '游客';
             signatureText.dispatchEvent(new Event('input'));
         });
     </script>
+    <!-- 全局提示框脚本（与管理员控制台一致） -->
+    <script src="/static/js/message.js"></script>
 </body>
 
 </html>

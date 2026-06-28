@@ -8,39 +8,29 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>26班网站 - 首页</title>
+    <link rel="stylesheet" href="/static/css/qzone-base.css">
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: "Microsoft Yahei", sans-serif;
-        }
-
-        body {
-            background: #f5f5f5;
-        }
-
+        /* 走马灯 */
         .carousel {
             position: relative;
             width: 50%;
             height: 500px;
             overflow: hidden;
             margin: 60px auto;
+            border-radius: var(--qzone-radius, 12px);
+            box-shadow: var(--qzone-shadow, 0 2px 12px rgba(0, 0, 0, 0.1));
         }
-
         .carousel-images {
             display: flex;
             height: 100%;
             transition: transform 0.6s ease;
         }
-
         .carousel-images img {
             width: 100%;
             height: 100%;
             object-fit: cover;
             flex-shrink: 0;
         }
-
         .carousel-btn {
             position: absolute;
             top: 50%;
@@ -51,9 +41,6 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
             font-size: 18px;
             width: 36px;
             height: 36px;
-            line-height: 1;
-            text-align: center;
-            padding: 0;
             cursor: pointer;
             z-index: 10;
             border-radius: 50%;
@@ -62,19 +49,9 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
             justify-content: center;
             transition: background 0.2s;
         }
-
-        .carousel-btn:hover {
-            background: rgba(0, 0, 0, 0.5);
-        }
-
-        .prev {
-            left: 20px;
-        }
-
-        .next {
-            right: 20px;
-        }
-
+        .carousel-btn:hover { background: rgba(0, 0, 0, 0.5); }
+        .prev { left: 20px; }
+        .next { right: 20px; }
         .carousel-dots {
             position: absolute;
             bottom: 14px;
@@ -83,19 +60,14 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
             display: flex;
             gap: 10px;
         }
-
         .dot {
-            width: 10px;
-            height: 10px;
-            background: rgba(255, 255, 255, 0.6);
+            width: 10px; height: 10px;
+            background: rgba(255,255,255,0.6);
             border-radius: 50%;
             cursor: pointer;
             transition: background 0.2s;
         }
-
-        .dot.active {
-            background: white;
-        }
+        .dot.active { background: white; }
 
         /* 最近活动区 */
         .recent-section {
@@ -103,150 +75,70 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
             margin: 0 auto;
             padding: 36px 24px 48px;
         }
-
-        .section-header {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 24px;
-        }
-
-        .section-header h2 {
-            font-size: 22px;
-            color: #333;
-            position: relative;
-            padding-left: 14px;
-        }
-
-        .section-header h2::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 4px;
-            bottom: 4px;
-            width: 4px;
-            background: #007bff;
-            border-radius: 2px;
-        }
-
-        .view-all {
-            color: #007bff;
-            text-decoration: none;
-            font-size: 14px;
-            transition: opacity 0.2s;
-        }
-
-        .view-all:hover {
-            opacity: 0.75;
-        }
-
         .activity-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
             gap: 20px;
         }
-
         .activity-card {
-            background: #fff;
-            border-radius: 10px;
+            background: var(--qzone-card-bg, #fff);
+            border-radius: var(--qzone-radius, 12px);
             padding: 22px 24px;
-            box-shadow: 0 1px 6px rgba(0, 0, 0, 0.06);
+            box-shadow: var(--qzone-shadow, 0 2px 12px rgba(0,0,0,0.1));
             transition: box-shadow 0.2s, transform 0.2s;
             cursor: pointer;
             text-decoration: none;
             color: inherit;
             display: block;
+            border: 1px solid var(--qzone-border, #e7e7e7);
         }
-
         .activity-card:hover {
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 16px rgba(0,0,0,0.15);
             transform: translateY(-2px);
         }
-
         .activity-card .card-title {
             font-size: 16px;
             font-weight: 600;
-            color: #222;
+            color: var(--qzone-text-primary, #333);
             margin-bottom: 10px;
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-
         .activity-card .card-time {
             font-size: 13px;
-            color: #888;
+            color: var(--qzone-text-light, #999);
             display: flex;
             align-items: center;
             gap: 6px;
         }
-
         .activity-card .card-time svg {
-            width: 14px;
-            height: 14px;
+            width: 14px; height: 14px;
             flex-shrink: 0;
         }
-
         .no-activities {
             text-align: center;
-            color: #aaa;
-            padding: 40px 0;
+            color: var(--qzone-text-light, #999);
+            padding: 60px 20px;
             font-size: 15px;
+            background: var(--qzone-card-bg, #fff);
+            border-radius: var(--qzone-radius, 12px);
+            border: 1px solid var(--qzone-border, #e7e7e7);
         }
 
         @media (max-width: 768px) {
-            .carousel {
-                width: 100%;
-                height: 240px;
-                margin: 40px auto;
-            }
-
-            .carousel-btn {
-                width: 30px;
-                height: 30px;
-                font-size: 14px;
-            }
-
+            .carousel { width: 100%; height: 240px; margin: 40px auto; border-radius: 0; }
+            .carousel-btn { width: 30px; height: 30px; font-size: 14px; }
             .prev { left: 10px; }
             .next { right: 10px; }
-
-            .recent-section {
-                padding: 24px 16px 36px;
-            }
-
-            .section-header h2 {
-                font-size: 18px;
-            }
-
-            .activity-grid {
-                grid-template-columns: 1fr;
-                gap: 12px;
-            }
-
-            .activity-card {
-                padding: 16px 18px;
-            }
+            .recent-section { padding: 24px 16px 36px; }
+            .activity-grid { grid-template-columns: 1fr; gap: 12px; }
+            .activity-card { padding: 16px 18px; }
         }
 
         @media (max-width: 480px) {
-            .carousel {
-                height: 180px;
-                margin: 30px auto;
-            }
-
-            .carousel-btn {
-                width: 26px;
-                height: 26px;
-                font-size: 12px;
-            }
-
-            .section-header h2 {
-                font-size: 16px;
-            }
-
-            .view-all {
-                font-size: 13px;
-            }
+            .carousel { height: 180px; margin: 30px auto; }
+            .carousel-btn { width: 26px; height: 26px; font-size: 12px; }
         }
     </style>
 </head>
@@ -272,9 +164,9 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
     <!-- 最近活动 -->
     <?php if (isset($_SESSION['username'])): ?>
     <div class="recent-section">
-        <div class="section-header">
+        <div class="qzone-page-header">
             <h2>最近活动</h2>
-            <a href="/activity/index" class="view-all">查看全部 &rarr;</a>
+            <a href="/activity/index" class="qzone-btn qzone-btn-primary qzone-btn-sm">查看全部 &rarr;</a>
         </div>
 
         <?php if (!empty($recentActivities)): ?>
@@ -323,9 +215,9 @@ require ROOT_DIR . '/views/common/navbar.php'; ?>
         }
 
         // 自动轮播
-        // let autoPlay = setInterval(nextSlide, 4000);
-        // document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(autoPlay));
-        // document.getElementById('carousel').addEventListener('mouseleave', () => { autoPlay = setInterval(nextSlide, 4000); });
+        let autoPlay = setInterval(nextSlide, 2000);
+        document.getElementById('carousel').addEventListener('mouseenter', () => clearInterval(autoPlay));
+        document.getElementById('carousel').addEventListener('mouseleave', () => { autoPlay = setInterval(nextSlide, 2000); });
     </script>
 
 </body>

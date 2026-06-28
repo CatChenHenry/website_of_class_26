@@ -8,90 +8,27 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>26班网站 - 修改头像</title>
-    <style>
-        .avatar-container {
-            width: 800px;
-            margin: 50px auto;
-            text-align: center;
-        }
-
-        .avatar-preview {
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            border: 2px solid #ccc;
-            object-fit: cover;
-            margin: 20px auto;
-            display: block;
-        }
-
-        .upload-form {
-            margin-top: 30px;
-        }
-
-        .file-input {
-            padding: 10px;
-            margin-bottom: 20px;
-        }
-
-        .submit-btn {
-            padding: 10px 30px;
-            background: #3498db;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-        }
-
-        .hint {
-            color: #666;
-            font-size: 14px;
-            margin-top: 10px;
-        }
-
-        @media (max-width: 768px) {
-            .avatar-container {
-                width: 100%;
-                padding: 0 16px;
-                box-sizing: border-box;
-            }
-
-            .avatar-preview {
-                width: 150px;
-                height: 150px;
-            }
-        }
-
-        @media (max-width: 480px) {
-            .avatar-container {
-                margin: 30px auto;
-                padding: 0 12px;
-            }
-
-            .avatar-preview {
-                width: 120px;
-                height: 120px;
-            }
-
-            .submit-btn {
-                padding: 8px 20px;
-            }
-        }
-    </style>
+    <link rel="stylesheet" href="/static/css/message.css">
+    <link rel="stylesheet" href="/static/css/qzone-base.css">
 </head>
 
 <body>
     <?php require ROOT_DIR . '/views/common/navbar.php'; ?>
-    <div class="avatar-container">
-        <h1>修改头像</h1>
-        <img id="avatarPreview" class="avatar-preview" src="<?php echo htmlspecialchars($avatar); ?>" alt="当前头像" onerror="this.src='/static/avatars/default.jpg'">
-        <form class="upload-form" action="/user/doAvatar" method="post" enctype="multipart/form-data">
-            <?php echo csrfField(); ?>
-            <input type="file" id="avatarFile" name="avatar" class="file-input" accept="image/jpeg,image/png" required>
-            <br>
-            <button type="submit" class="submit-btn">上传头像</button>
-            <p class="hint">支持JPG/PNG格式，大小不超过2MB</p>
-        </form>
+    <div class="qzone-page">
+        <div class="qzone-card" style="max-width: 500px; margin: 0 auto; text-align: center;">
+            <div class="qzone-page-header" style="justify-content: center;">
+                <h1 style="margin:0;">修改头像</h1>
+            </div>
+            <img id="avatarPreview" class="qzone-avatar-preview" src="<?php echo htmlspecialchars($avatar); ?>" alt="当前头像" onerror="this.src='/static/avatars/default.jpg'">
+            <form action="/user/doAvatar" method="post" enctype="multipart/form-data">
+                <?php echo csrfField(); ?>
+                <div class="qzone-form-item">
+                    <input type="file" id="avatarFile" name="avatar" accept="image/jpeg,image/png" class="qzone-form-input" style="padding:10px;cursor:pointer;" required>
+                </div>
+                <button type="submit" class="qzone-btn qzone-btn-primary">上传头像</button>
+                <p style="color:var(--qzone-text-light,#999);font-size:14px;margin-top:12px;">支持JPG/PNG格式，大小不超过2MB</p>
+            </form>
+        </div>
     </div>
 
     <script>
@@ -114,6 +51,8 @@
             }
         });
     </script>
+    <!-- 全局提示框脚本（与管理员控制台一致） -->
+    <script src="/static/js/message.js"></script>
 </body>
 
 </html>
